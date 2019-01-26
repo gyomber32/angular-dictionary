@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+//import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-addition',
@@ -13,7 +14,22 @@ export class AdditionComponent implements OnInit {
   private synonym: string;
   private example: string;
 
-  constructor() { }
+  //private additionForm: FormGroup;
+
+  constructor(/*private formBuilder: FormBuilder*/) { }
+
+  /* public formValidator(){
+    this.additionForm = this.formBuilder.group({
+      english: ['', Validators.required],
+      lastName: ['', Validators.required],
+      dob: ['', Validators.required],
+      residency: ['', Validators.required],
+      gender: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(6)]]
+    });
+  }*/
+
 
   public addToDatabase(englsih: string, hungarian: string, partsOfSpeach: string, synonym?: string, example?: string): void {
     try {
@@ -26,6 +42,7 @@ export class AdditionComponent implements OnInit {
   }
 
   ngOnInit() {
+    //this.formValidator();
   }
 
 }

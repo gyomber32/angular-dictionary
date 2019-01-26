@@ -1,28 +1,36 @@
 <h1>Addition</h1>
 <mat-card class="example-container">
-  <mat-form-field>
-    <input matInput placeholder="Englsih">
-  </mat-form-field>
-  <mat-form-field>
-    <input matInput placeholder="Hungarian">
-  </mat-form-field>
-  <mat-form-field>
-    <mat-select placeholder="Parts of speech">
-      <mat-option value="noun">noun</mat-option>
-      <mat-option value="pronoun">pronoun</mat-option>
-      <mat-option value="adjective">adjective</mat-option>
-      <mat-option value="verb">verb</mat-option>
-      <mat-option value="adverb">adverb</mat-option>
-      <mat-option value="preposition">preposition</mat-option>
-      <mat-option value="conjunction">conjunction</mat-option>
-      <mat-option value="interjenction">interjenction</mat-option>
-    </mat-select>
-  </mat-form-field>
-  <mat-form-field>
-    <input matInput placeholder="Synonym">
-  </mat-form-field>
-  <mat-form-field>
-    <textarea matInput placeholder="Example"></textarea>
-  </mat-form-field>
-  <button mat-raised-button color="primary">Add</button>
+  <!-- [formGroup]="additionForm" -->
+  <form>
+    <mat-form-field>
+      <input type='text' matInput placeholder="Englsih">
+     <!--  <input type="text" formControlName="firstName" [ngClass]="{ 'is-invalid': registrationSubmitted && getRegisterForm.firstName.errors }"
+                matInput placeholder="Firstname">
+              <div *ngIf="registrationSubmitted && getRegisterForm.firstName.errors" class="invalid-feedback">
+                <div *ngIf="getRegisterForm.firstName.errors.required">Firstname is required</div>
+              </div>-->
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput placeholder="Hungarian">
+    </mat-form-field>
+    <mat-form-field>
+      <mat-select placeholder="Parts of speech">
+        <mat-option value="noun">noun</mat-option>
+        <mat-option value="pronoun">pronoun</mat-option>
+        <mat-option value="adjective">adjective</mat-option>
+        <mat-option value="verb">verb</mat-option>
+        <mat-option value="adverb">adverb</mat-option>
+        <mat-option value="preposition">preposition</mat-option>
+        <mat-option value="conjunction">conjunction</mat-option>
+        <mat-option value="interjenction">interjenction</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput placeholder="Synonym">
+    </mat-form-field>
+    <mat-form-field>
+      <textarea matInput placeholder="Example"></textarea>
+    </mat-form-field>
+    <button mat-raised-button color="primary">Add</button>
+  </form>
 </mat-card>
