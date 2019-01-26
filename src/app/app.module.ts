@@ -6,14 +6,14 @@ import { AppMaterialModule } from '../app/app.material.module'
 import { AppComponent } from './app.component';
 import { TranslateComponent } from './translate/translate.component';
 import { DictionaryComponent } from './dictionary/dictionary.component';
-import { AddictionComponent } from './addiction/addiction.component';
+import { AdditionComponent } from './addition/addition.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     TranslateComponent,
     DictionaryComponent,
-    AddictionComponent
+    AdditionComponent
   ],
   imports: [
     BrowserModule,

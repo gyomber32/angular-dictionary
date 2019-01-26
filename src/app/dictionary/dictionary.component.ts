@@ -9,26 +9,24 @@ import { MatSort, MatTableDataSource } from '@angular/material';
 })
 export class DictionaryComponent implements OnInit {
 
-  displayedColumns: string[] = ['select', 'id', 'english', 'hungarian', 'partOfSpeech', 'synonym', 'example'];
-  dataSource = new MatTableDataSource(dictionary);
-  selection = new SelectionModel<DictionaryElement>(true, []);
+  private displayedColumns: string[] = ['id', 'english', 'hungarian', 'partsOfSpeech', 'synonym', 'example', 'select'];
+  private dataSource = new MatTableDataSource(dictionary);
 
   constructor() { }
 
-  isAllSelected() {
-    const numSelected = this.selection.selected.length;
-    const numRows = this.dataSource.data.length;
-    return numSelected === numRows;
-  }
-
-  /** Selects all rows if they are not all selected; otherwise clear selection. */
-  masterToggle() {
-    this.isAllSelected() ?
-      this.selection.clear() :
-      this.dataSource.data.forEach(row => this.selection.select(row));
+  public applyFilter(filterValue: string) {
+    this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
   @ViewChild(MatSort) sort: MatSort;
+
+  public modify(): void {
+
+  }
+
+  public delete(): void {
+
+  }
 
   ngOnInit() {
     this.dataSource.sort = this.sort;
@@ -40,14 +38,14 @@ export interface DictionaryElement {
   id: number,
   english: string;
   hungarian: string;
-  partOfSpeech: string;
-  synonym: string;
-  example: string;
+  partsOfSpeech: string;
+  synonym?: string;
+  example?: string;
 }
 
 const dictionary: DictionaryElement[] = [
-  { id: 1, english: 'zxvzxv', hungarian: 'vzxv', partOfSpeech: 'dvxcvxc', synonym: 'asdasd', example: 'djggjsdkl' },
-  { id: 2, english: 'zxvzxv', hungarian: 'vzxv', partOfSpeech: 'dvxcvxc', synonym: 'asdasd', example: 'djggjsdkl' },
-  { id: 3, english: 'zxvzxv', hungarian: 'vzxv', partOfSpeech: 'dvxcvxc', synonym: 'asdasd', example: 'djggjsdkl' },
-  { id: 4, english: 'zxvzxv', hungarian: 'vzxv', partOfSpeech: 'dvxcvxc', synonym: 'asdasd', example: 'djggjsdkl' }
+  { id: 1, english: 'courage', hungarian: 'bátorság', partsOfSpeech: 'noun', synonym: 'bravery, boldness', example: 'He fought his illness with great courage.' },
+  { id: 2, english: 'grab', hungarian: 'megragad', partsOfSpeech: 'verb', synonym: 'grip, snatch, seize, tackle, grapple', example: 'It was only the quick grab of one of his porters that saves him from the fall.' },
+  { id: 3, english: 'soldier', hungarian: 'katona', partsOfSpeech: 'noun', synonym: 'man, serviceman', example: 'As an enlisted soldier , he served in every leadership position up to the position of First Sergeant.' },
+  { id: 4, english: 'lonely', hungarian: 'magányos', partsOfSpeech: 'adjective', synonym: 'lonely, lone, solitary, lonesome, desolate, segregate', example: "I don\'t want you to be lonely for the rest of your life." }
 ];
