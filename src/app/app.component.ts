@@ -7,4 +7,8 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'dictionary';
+
+  ngOnInit() {
+    document.body.classList.add('bg-img');
+  }
 }
