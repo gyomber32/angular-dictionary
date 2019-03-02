@@ -22,15 +22,15 @@ export class DictionaryService {
     return this.getOneWord(id);
   }
 
-  public checkWord(english: string): Observable<any> {
-    return this.dictionaryApi.checkWord(english);
+  public checkWord(english: string, partsOfSpeech: string): Observable<any> {
+    return this.dictionaryApi.checkWord(english, partsOfSpeech);
   }
 
   public modifyWord(id: string, english: string, hungarian: string, partsOfSpeech: string, synonym?: string, example?: string): Observable<any> {
     return this.dictionaryApi.modifyWord(id, english, hungarian, partsOfSpeech, synonym, example);
   }
 
-  public deleteWord(id: string): Observable<any> {
+  public deleteWord(id: number): Observable<any> {
     return this.dictionaryApi.deleteWord(id);
   }
 

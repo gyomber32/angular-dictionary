@@ -123,13 +123,15 @@ export class DictionaryApi extends BaseLoopBackApi {
    *
    * @param {string} english The english word in the database.
    *
+   * @param {string} partsOfSpeech The parts of speech of the given word in the database.
+   *
    * @returns {object[]} An empty reference that will be
    *   populated with the actual data once the response is returned
    *   from the server.
    *
-   * The word is already in your database.
+   * The word has been checked.
    */
-  public checkWord(english: any, customHeaders?: Function): Observable<any> {
+  public checkWord(english: any, partsOfSpeech: any, customHeaders?: Function): Observable<any> {
     let _method: string = "GET";
     let _url: string = LoopBackConfig.getPath() + "/" + LoopBackConfig.getApiVersion() +
     "/Dictionaries/checkWord";
@@ -137,6 +139,7 @@ export class DictionaryApi extends BaseLoopBackApi {
     let _postBody: any = {};
     let _urlParams: any = {};
     if (typeof english !== 'undefined' && english !== null) _urlParams.english = english;
+    if (typeof partsOfSpeech !== 'undefined' && partsOfSpeech !== null) _urlParams.partsOfSpeech = partsOfSpeech;
     let result = this.request(_method, _url, _routeParams, _urlParams, _postBody, null, customHeaders);
     return result;
   }

@@ -1,4 +1,16 @@
-table {
+.container {
+  background: rgba(255, 255, 255, 0.8);
+  margin: auto;
+  max-width: 75%;
+  min-width: 700px;
+}
+
+.mat-form-field {
+  font-size: 14px;
+  width: 100%;
+}
+
+::ng-deep table {
   width: 100%;
 }
 
@@ -6,7 +18,57 @@ th.mat-sort-header-sorted {
   color: black;
 }
 
-.mat-form-field {
-  font-size: 14px;
-  width: 100%;
+::ng-deep th.mat-header-cell {
+  text-align: center;
+  margin: auto;
+}
+
+::ng-deep .mat-sort-header-container {
+  display: inline-block;
+  margin: auto;
+}
+
+::ng-deep .mat-sort-header-button {
+  margin: auto;
+}
+
+td.mat-column-id {
+  width: 20px;
+  text-align: center;
+}
+
+td.mat-column-english {
+  width: 100px;
+  text-align: center;
+}
+
+td.mat-column-hungarian {
+  width: 100px;
+  text-align: center;
+}
+
+td.mat-column-partsOfSpeech {
+  width: 150px;
+  text-align: center;
+}
+
+td.mat-column-synonym {
+  width: 100px;
+  text-align: center;
+}
+
+td.mat-column-example {
+  width: 300px;
+  text-align: center;
+}
+
+td.mat-column-actions {
+  width: 100px;
+  text-align: center;
+}
+
+.buttons {
+  padding: 0px;
+  margin: 1px;
+  min-width: 40px;
 }

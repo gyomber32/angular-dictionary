@@ -1,20 +1,29 @@
-<h1>Addition</h1>
-<mat-card class="example-container">
-  <!-- [formGroup]="additionForm" -->
-  <form>
-    <mat-form-field>
-      <input type='text' matInput placeholder="Englsih">
-     <!--  <input type="text" formControlName="firstName" [ngClass]="{ 'is-invalid': registrationSubmitted && getRegisterForm.firstName.errors }"
-                matInput placeholder="Firstname">
-              <div *ngIf="registrationSubmitted && getRegisterForm.firstName.errors" class="invalid-feedback">
-                <div *ngIf="getRegisterForm.firstName.errors.required">Firstname is required</div>
-              </div>-->
+<h1 style='text-align: center; font-weight: bold; font-size:3vw; color: black;
+-webkit-text-fill-color: white;
+-webkit-text-stroke-width: 1px;
+-webkit-text-stroke-color: black;'>Addition</h1>
+<mat-card class="container">
+  <form class="form" [formGroup]="additionForm" (ngSubmit)="onSubmit()">
+    <mat-form-field class='form-field'>
+      <input type="text" formControlName="english"
+        [ngClass]="{ 'is-invalid': additionSubmitted && getAdditionForm.english.errors }" matInput
+        placeholder="English">
+      <div *ngIf="additionSubmitted && getAdditionForm.english.errors" class="invalid-feedback">
+        <div *ngIf="getAdditionForm.english.errors.required">The english word is required!</div>
+      </div>
     </mat-form-field>
-    <mat-form-field>
-      <input matInput placeholder="Hungarian">
+    <mat-form-field class='form-field'>
+      <input type="text" formControlName="hungarian"
+        [ngClass]="{ 'is-invalid': additionSubmitted && getAdditionForm.hungarian.errors }" matInput
+        placeholder="Hungarian">
+      <div *ngIf="additionSubmitted && getAdditionForm.hungarian.errors" class="invalid-feedback">
+        <div *ngIf="getAdditionForm.hungarian.errors.required">The hungarian word is required!</div>
+      </div>
     </mat-form-field>
-    <mat-form-field>
-      <mat-select placeholder="Parts of speech">
+    <mat-form-field class='form-field'>
+      <mat-select type="text" formControlName="partsOfSpeech"
+        [ngClass]="{ 'is-invalid': additionSubmitted && getAdditionForm.partsOfSpeech.errors }"
+        placeholder="Parts of Speech">
         <mat-option value="noun">noun</mat-option>
         <mat-option value="pronoun">pronoun</mat-option>
         <mat-option value="adjective">adjective</mat-option>
@@ -24,13 +33,16 @@
         <mat-option value="conjunction">conjunction</mat-option>
         <mat-option value="interjenction">interjenction</mat-option>
       </mat-select>
+      <div *ngIf="additionSubmitted && getAdditionForm.partsOfSpeach.errors" class="invalid-feedback">
+        <div *ngIf="getAdditionForm.partsOfSpeach.errors.required">The parts of speech is required!</div>
+      </div>
     </mat-form-field>
-    <mat-form-field>
-      <input matInput placeholder="Synonym">
+    <mat-form-field class='form-field'>
+      <input type="text" formControlName="synonym" matInput placeholder="Synonym">
     </mat-form-field>
-    <mat-form-field>
-      <textarea matInput placeholder="Example"></textarea>
+    <mat-form-field class='form-field'>
+      <textarea type="text" formControlName="example" matInput placeholder="Example"></textarea>
     </mat-form-field>
-    <button mat-raised-button color="primary">Add</button>
+    <button class='addButton' mat-raised-button color="primary">Add</button>
   </form>
 </mat-card>

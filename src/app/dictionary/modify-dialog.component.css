@@ -1,26 +1,30 @@
-.container {
+/*.container {
     display: flex;
     flex-direction: column;
     min-width: 200px;
-    max-width: 500px;
+    max-width: 700px;
+    width: 500px;
     margin: auto;
     border-radius: 10px;
     background: rgba(255, 255, 255, 0.8);
-}
+}*/
 
 .form {
     display: flex;
     flex-direction: column;
+    min-width: 200px;
+    max-width: 700px;
+    width: 500px;
     border-radius: 10px;
     background: white;
 }
 
 .form-field {
-    padding: 10px;
+    padding: 5px;
 }
 
 .addButton {
     margin: auto;
-    margin-bottom: 10px;
+    margin-bottom: 5px;
     width: 100px;
 }
