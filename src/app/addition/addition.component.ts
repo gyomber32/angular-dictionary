@@ -46,7 +46,7 @@ export class AdditionComponent implements OnInit {
       this.dictionaryService.addWord(english, hungarian, partsOfSpeech, synonym, example).subscribe(_ => {
         // alert('Successfully added to database.');
         const word = {
-          'id': null,
+          'id': this.dictionary.length > 0 ? (this.dictionary[this.dictionary.length - 1].id + 1) : 1,
           'english': english,
           'hungarian': hungarian,
           'partsOfSpeech': partsOfSpeech,
