@@ -5,7 +5,7 @@ import { SDKModels } from './SDKModels';
 import { BaseLoopBackApi } from '../core/base.service';
 import { LoopBackConfig } from '../../lb.config';
 import { LoopBackAuth } from '../core/auth.service';
-import { LoopBackFilter,  } from '../../models/BaseModels';
+import { LoopBackFilter, } from '../../models/BaseModels';
 import { ErrorHandler } from '../core/error.service';
 import { Observable, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -26,7 +26,7 @@ export class DictionaryApi extends BaseLoopBackApi {
     @Inject(LoopBackAuth) protected auth: LoopBackAuth,
     @Optional() @Inject(ErrorHandler) protected errorHandler: ErrorHandler
   ) {
-    super(http,  connection,  models, auth, errorHandler);
+    super(http, connection, models, auth, errorHandler);
   }
 
   /**
@@ -57,7 +57,7 @@ export class DictionaryApi extends BaseLoopBackApi {
   public addWord(english: any, hungarian: any, partsOfSpeech: any, synonym: any = {}, example: any = {}, customHeaders?: Function): Observable<any> {
     let _method: string = "POST";
     let _url: string = LoopBackConfig.getPath() + "/" + LoopBackConfig.getApiVersion() +
-    "/Dictionaries/addWord";
+      "/Dictionaries/addWord";
     let _routeParams: any = {};
     let _postBody: any = {};
     let _urlParams: any = {};
@@ -84,7 +84,7 @@ export class DictionaryApi extends BaseLoopBackApi {
   public getAllWords(customHeaders?: Function): Observable<any> {
     let _method: string = "GET";
     let _url: string = LoopBackConfig.getPath() + "/" + LoopBackConfig.getApiVersion() +
-    "/Dictionaries/getAllWords";
+      "/Dictionaries/getAllWords";
     let _routeParams: any = {};
     let _postBody: any = {};
     let _urlParams: any = {};
@@ -108,10 +108,11 @@ export class DictionaryApi extends BaseLoopBackApi {
   public getOneWord(id: any, customHeaders?: Function): Observable<any> {
     let _method: string = "GET";
     let _url: string = LoopBackConfig.getPath() + "/" + LoopBackConfig.getApiVersion() +
-    "/Dictionaries/getOneWord";
+      "/Dictionaries/getOneWord";
     let _routeParams: any = {};
     let _postBody: any = {};
     let _urlParams: any = {};
+    if (typeof id !== 'undefined' && id !== null) _urlParams.id = id;
     let result = this.request(_method, _url, _routeParams, _urlParams, _postBody, null, customHeaders);
     return result;
   }
@@ -134,7 +135,7 @@ export class DictionaryApi extends BaseLoopBackApi {
   public checkWord(english: any, partsOfSpeech: any, customHeaders?: Function): Observable<any> {
     let _method: string = "GET";
     let _url: string = LoopBackConfig.getPath() + "/" + LoopBackConfig.getApiVersion() +
-    "/Dictionaries/checkWord";
+      "/Dictionaries/checkWord";
     let _routeParams: any = {};
     let _postBody: any = {};
     let _urlParams: any = {};
@@ -174,10 +175,11 @@ export class DictionaryApi extends BaseLoopBackApi {
   public modifyWord(id: any, english: any, hungarian: any, partsOfSpeech: any, synonym: any = {}, example: any = {}, customHeaders?: Function): Observable<any> {
     let _method: string = "PUT";
     let _url: string = LoopBackConfig.getPath() + "/" + LoopBackConfig.getApiVersion() +
-    "/Dictionaries/modifyWord";
+      "/Dictionaries/modifyWord";
     let _routeParams: any = {};
     let _postBody: any = {};
     let _urlParams: any = {};
+    if (typeof id !== 'undefined' && id !== null) _urlParams.id = id;
     if (typeof english !== 'undefined' && english !== null) _urlParams.english = english;
     if (typeof hungarian !== 'undefined' && hungarian !== null) _urlParams.hungarian = hungarian;
     if (typeof partsOfSpeech !== 'undefined' && partsOfSpeech !== null) _urlParams.partsOfSpeech = partsOfSpeech;
@@ -203,10 +205,11 @@ export class DictionaryApi extends BaseLoopBackApi {
   public deleteWord(id: any, customHeaders?: Function): Observable<any> {
     let _method: string = "DELETE";
     let _url: string = LoopBackConfig.getPath() + "/" + LoopBackConfig.getApiVersion() +
-    "/Dictionaries/deleteWord";
+      "/Dictionaries/deleteWord";
     let _routeParams: any = {};
     let _postBody: any = {};
     let _urlParams: any = {};
+    if (typeof id !== 'undefined' && id !== null) _urlParams.id = id;
     let result = this.request(_method, _url, _routeParams, _urlParams, _postBody, null, customHeaders);
     return result;
   }

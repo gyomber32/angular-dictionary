@@ -7,8 +7,39 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TranslateComponent implements OnInit {
 
+  private swap: boolean;
+  private hungarianWord: string;
+  private englishWord: string;
+
   constructor() { }
 
-  ngOnInit() { }
+  public swapLanguage(): void {
+    if (this.swap === true) {
+      this.swap = false;
+    } else {
+      this.swap = true;
+    }
+    console.log(this.swap);
+  }
+
+  public englishToHungarian(): void {
+
+  }
+
+  public hungarianToEnglish(): void {
+
+  }
+
+  public translate(): void {
+    if (this.swap === true) {
+      console.log('EnglishToHungarian');
+    } else {
+      console.log('HungarianToEnglish');
+    }
+  }
+
+  ngOnInit() {
+    this.swap = true;
+  }
 
 }

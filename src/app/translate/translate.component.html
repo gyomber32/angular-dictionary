@@ -2,7 +2,36 @@
 -webkit-text-fill-color: white;
 -webkit-text-stroke-width: 1px;
 -webkit-text-stroke-color: black;'>Translate</h1>
-<h2 style='text-align: center; color: black;
--webkit-text-fill-color: white;
--webkit-text-stroke-width: 1px;
--webkit-text-stroke-color: black;'>Translate feature is in progress...</h2>
+<mat-card class="container">
+    <div *ngIf="swap; then thenBlock else elseBlock"></div>
+    <ng-template #thenBlock>
+        <mat-form-field class='form-field'>
+            <input matInput placeholder="English word" [(ngModel)]='englishWord'>
+        </mat-form-field>
+        <button class='button' mat-raised-button color='primary' (click)='swapLanguage()'>
+            <mat-icon>swap_horiz</mat-icon>
+        </button>
+        <mat-form-field class='form-field'>
+            <input matInput placeholder="Hungarian word" [(ngModel)]='hungarianWord'>
+        </mat-form-field>
+        <button class='button' mat-raised-button color='primary' (click)='translate()'>
+            <mat-icon>translate</mat-icon>
+        </button>
+        <!-- DIASBLE THE BUTTON, UNTIL AIN`T GOT A PRESPONSE, TO AVOID MORE THAN ON HTTP REQUEST-->
+    </ng-template>
+    <ng-template #elseBlock>
+        <mat-form-field class='form-field'>
+            <input matInput placeholder="Hungarian word" [(ngModel)]='hungarianWord'>
+        </mat-form-field>
+        <button class='button' mat-raised-button color='primary' (click)='swapLanguage()'>
+            <mat-icon>swap_horiz</mat-icon>
+        </button>
+        <mat-form-field class='form-field'>
+            <input matInput placeholder="English word" [(ngModel)]='englishWord'>
+        </mat-form-field>
+        <button class='button' mat-raised-button color='primary' (click)='translate()'>
+            <mat-icon>translate</mat-icon>
+        </button>
+        <!-- DIASBLE THE BUTTON, UNTIL AIN`T GOT A PRESPONSE, TO AVOID MORE THAN ON HTTP REQUEST-->
+    </ng-template>
+</mat-card>

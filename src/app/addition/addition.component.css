@@ -1,22 +1,17 @@
-.container {
+.form {
     display: flex;
     flex-direction: column;
     min-width: 200px;
-    max-width: 500px;
+    max-width: 400px;
     margin: auto;
     border-radius: 10px;
     background: rgba(255, 255, 255, 0.8);
 }
 
-.form {
-    display: flex;
-    flex-direction: column;
-    border-radius: 10px;
-    background: white;
-}
-
 .form-field {
     padding: 10px;
+    padding-left: 20px;
+    padding-right: 20px;
 }
 
 .addButton {

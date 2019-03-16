@@ -19,14 +19,14 @@ export class DictionaryService {
   }
 
   public getOneWord(id: number): Observable<any> {
-    return this.getOneWord(id);
+    return this.dictionaryApi.getOneWord(id);
   }
 
   public checkWord(english: string, partsOfSpeech: string): Observable<any> {
     return this.dictionaryApi.checkWord(english, partsOfSpeech);
   }
 
-  public modifyWord(id: string, english: string, hungarian: string, partsOfSpeech: string, synonym?: string, example?: string): Observable<any> {
+  public modifyWord(id: number, english: string, hungarian: string, partsOfSpeech: string, synonym?: string, example?: string): Observable<any> {
     return this.dictionaryApi.modifyWord(id, english, hungarian, partsOfSpeech, synonym, example);
   }
 
