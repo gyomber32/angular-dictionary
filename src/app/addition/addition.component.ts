@@ -4,6 +4,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DictionaryService } from '../services/dictionary.service';
 import { CommonService } from '../services/common.service';
 
+import { DictionaryElement } from '../dictionary.interface';
+
 @Component({
   selector: 'app-addition',
   templateUrl: './addition.component.html',
@@ -12,6 +14,7 @@ import { CommonService } from '../services/common.service';
 export class AdditionComponent implements OnInit {
 
   private additionForm: FormGroup;
+  private dictionary: DictionaryElement[] = [];
 
   constructor(private dictionaryService: DictionaryService, private commonService: CommonService, private formBuilder: FormBuilder) { }
 
@@ -41,16 +44,17 @@ export class AdditionComponent implements OnInit {
   public addToDatabase(english: string, hungarian: string, partsOfSpeech: string, synonym: string, example: string): void {
     try {
       this.dictionaryService.addWord(english, hungarian, partsOfSpeech, synonym, example).subscribe(_ => {
-        //alert('Successfully added to database.');
+        // alert('Successfully added to database.');
         const word = {
-          'id': '',
+          'id': null,
           'english': english,
           'hungarian': hungarian,
           'partsOfSpeech': partsOfSpeech,
           'synonym': synonym,
           'example': example
         };
-        this.commonService.updateDictionary(word);
+        this.dictionary.push(word);
+        this.commonService.updateDictionary(this.dictionary);
         this.additionForm.setValue({
           ['english']: '',
           ['hungarian']: '',
@@ -91,6 +95,12 @@ export class AdditionComponent implements OnInit {
 
   ngOnInit() {
     this.formValidator();
+    this.commonService.cast.subscribe((dictionary) => {
+      this.dictionary = [];
+      this.dictionary = dictionary;
+    }, (error) => {
+      console.log(error);
+    });
   }
 
 }

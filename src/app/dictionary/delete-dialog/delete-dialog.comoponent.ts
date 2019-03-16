@@ -1,15 +1,19 @@
-import { Component, ViewChild, OnInit, OnChanges, DoCheck, AfterViewInit, ChangeDetectorRef, Input } from '@angular/core';
-import { MatPaginator, MatSort, MatTableDataSource, MatDialog, MatDialogRef } from '@angular/material';
-import { DictionaryService } from '../../services/dictionary.service';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component, Input, OnInit } from '@angular/core';
+import { MatDialogRef } from '@angular/material';
+
 import { CommonService } from '../../services/common.service';
+import { DictionaryService } from '../../services/dictionary.service';
+
+import { DictionaryElement } from '../../dictionary.interface';
 
 @Component({
     selector: 'app-delete-dialog',
     templateUrl: 'delete-dialog.component.html',
     styleUrls: ['./delete-dialog.component.css']
 })
-export class DeleteDialogComponent {
+export class DeleteDialogComponent implements OnInit {
+
+    private dictionary: Array<DictionaryElement>;
 
     constructor(
         private dictionaryService: DictionaryService,
@@ -23,12 +27,13 @@ export class DeleteDialogComponent {
             // alert('The word has been deleted!');
             this.commonService.cast.subscribe((word) => {
                 console.log('word: ', word);
-                for (let i = 0; i < dictionary.length; i++) {
+                for (let i = 0; i < this.dictionary.length; i++) {
                     console.log('deleted2');
-                    console.log(dictionary[i]);
-                    if (dictionary[i].id === word.id) {
-                        dictionary.splice(i, 1);
-                        this.commonService.updateDictionary(dictionary);
+                    // console.log(this.dictionary[i]);
+                    if (this.dictionary[i].id === id) {
+                        this.dictionary.splice(i, 1);
+                        console.log('word: ', this.dictionary);
+                        this.commonService.updateDictionary(this.dictionary);
                         console.log('deleted3');
                     }
                 }
@@ -48,4 +53,14 @@ export class DeleteDialogComponent {
         this.deleteDialogRef.close();
     }
 
+    ngOnInit() {
+        console.log('onInit in deleteDialog');
+        this.commonService.cast.subscribe((dictionary) => {
+            this.dictionary = dictionary;
+        }, (error) => {
+            console.log(error);
+        });
+    }
+
 }
+

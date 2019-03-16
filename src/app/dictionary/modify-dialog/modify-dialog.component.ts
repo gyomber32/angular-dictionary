@@ -1,8 +1,11 @@
-import { Component, ViewChild, OnInit, OnChanges, DoCheck, AfterViewInit, ChangeDetectorRef, Input } from '@angular/core';
-import { MatPaginator, MatSort, MatTableDataSource, MatDialog, MatDialogRef } from '@angular/material';
+import { Component, OnInit } from '@angular/core';
+import { MatDialogRef } from '@angular/material';
 import { DictionaryService } from '../../services/dictionary.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+
 import { CommonService } from '../../services/common.service';
+
+import { DictionaryElement } from '../../dictionary.interface';
 
 @Component({
     selector: 'app-modify-dialog',
@@ -12,6 +15,7 @@ import { CommonService } from '../../services/common.service';
 export class ModifyDialogComponent implements OnInit {
 
     private modifyForm: FormGroup;
+    private dictionary: DictionaryElement[] = [];
 
     constructor(
         private dictionaryService: DictionaryService,
@@ -78,7 +82,15 @@ export class ModifyDialogComponent implements OnInit {
                     'synonym': synonym,
                     'example': example
                 };
-                this.commonService.updateDictionary(word);
+                for (let i = 0; i < this.dictionary.length; i++) {
+                    if (this.dictionary[i].id === id) {
+                        // this.dictionary.splice(i, 1);
+                        // console.log('word: ', this.dictionary);
+                        this.dictionary[i] = word;
+                        this.commonService.updateDictionary(this.dictionary);
+                        console.log('modified: ', this.dictionary);
+                    }
+                }
                 this.modifyDialogRef.close();
             }, (error) => {
                 console.log(error);
@@ -93,6 +105,13 @@ export class ModifyDialogComponent implements OnInit {
     ngOnInit() {
         this.formValidator();
         this.getOneWord();
+        console.log('onInit in modifyDialog');
+        this.commonService.cast.subscribe((dictionary) => {
+            this.dictionary = dictionary;
+        }, (error) => {
+            console.log(error);
+        });
     }
 
 }
+
