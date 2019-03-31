@@ -7,26 +7,20 @@ import { DictionaryElement } from './dictionary.interface';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit, OnChanges {
+export class AppComponent implements OnInit {
   title = 'dictionary';
 
-  @Input() word: DictionaryElement[];
-  @Input() translatedWords: string[];
+  private word: DictionaryElement[];
   private englishWord: string;
   private hungarianWord: string;
 
   public addedWord(event): void {
-    console.log(event);
     this.word = event;
   }
 
   public translatedWords(event): void {
     this.englishWord = event[0];
     this.hungarianWord = event[1];
-  }
-
-  ngOnChanges() {
-    this.addedWord(event);
   }
 
   ngOnInit() {
