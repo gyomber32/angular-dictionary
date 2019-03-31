@@ -64,7 +64,6 @@ export class AdditionComponent implements OnInit {
           ['synonym']: '',
           ['example']: ''
         });
-        // this.paginator.length += 1;
       }, (error) => {
         console.log(error);
         alert('Error during adding to database.');

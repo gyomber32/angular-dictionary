@@ -16,7 +16,7 @@ import { DictionaryElement } from '../dictionary.interface';
 })
 export class DictionaryComponent implements OnInit, OnChanges {
 
-  private displayedColumns: string[] = ['id', 'english', 'hungarian', 'partsOfSpeech', 'synonym', 'example', 'actions'];
+  private displayedColumns: string[] = ['english', 'hungarian', 'partsOfSpeech', 'synonym', 'example', 'actions'];
   private dataSource: MatTableDataSource<DictionaryElement>;
   private dictionary: DictionaryElement[] = [];
   @Input() word: DictionaryElement;
@@ -93,7 +93,6 @@ export class DictionaryComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges() {
-    console.log('ngOnChanges');
     this.dataSource._updateChangeSubscription();
     this.dataSource.sort = this.sort;
   }
@@ -106,3 +105,4 @@ export class DictionaryComponent implements OnInit, OnChanges {
   }
 
 }
+

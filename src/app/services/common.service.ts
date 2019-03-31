@@ -17,7 +17,6 @@ export class CommonService {
 
   updateDictionary(newDictionray) {
     this.dictionary.next(newDictionray);
-    console.log('word in service: ', this.dictionary.value);
   }
 
 }
