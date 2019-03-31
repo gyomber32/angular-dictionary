@@ -1,4 +1,4 @@
-import { Component, ViewChild, OnInit, OnChanges, DoCheck, AfterViewInit, ChangeDetectorRef, Input } from '@angular/core';
+import { Component, ViewChild, OnInit, OnChanges, DoCheck, ChangeDetectorRef, Input } from '@angular/core';
 import { MatPaginator, MatSort, MatTableDataSource, MatDialog } from '@angular/material';
 
 import { DeleteDialogComponent } from './delete-dialog/delete-dialog.comoponent';
@@ -14,7 +14,7 @@ import { DictionaryElement } from '../dictionary.interface';
   templateUrl: './dictionary.component.html',
   styleUrls: ['./dictionary.component.css']
 })
-export class DictionaryComponent implements OnInit, OnChanges, DoCheck, AfterViewInit {
+export class DictionaryComponent implements OnInit, OnChanges, DoCheck {
 
   private displayedColumns: string[] = ['id', 'english', 'hungarian', 'partsOfSpeech', 'synonym', 'example', 'actions'];
   @Input() dataSource: MatTableDataSource<DictionaryElement>;
@@ -53,6 +53,10 @@ export class DictionaryComponent implements OnInit, OnChanges, DoCheck, AfterVie
         };
         this.dictionary.push(wordJSON);
       });
+      console.log('word:');
+      console.log(this.dictionary);
+      this.dataSource._updateChangeSubscription();
+      this.dataSource.paginator = this.paginator;
     }, (error) => {
       console.log(error);
     });
@@ -88,7 +92,7 @@ export class DictionaryComponent implements OnInit, OnChanges, DoCheck, AfterVie
 
   ngOnChanges() {
     console.log('ngOnChange called');
-    this.getAllWords();
+    // this.getAllWords();
     /*this.dataSource._updateChangeSubscription();
     this.dataSource.sort = this.sort;*/
   }
@@ -96,9 +100,11 @@ export class DictionaryComponent implements OnInit, OnChanges, DoCheck, AfterVie
   ngOnInit() {
     console.log('onInit');
     this.getAllWords();
-    this.commonService.updateDictionary(this.dictionary);
-    /*this.dataSource._updateChangeSubscription();
-    this.dataSource.sort = this.sort;*/
+    this.dataSource._updateChangeSubscription();
+    this.dataSource.sort = this.sort;
+
+    // this.commonService.updateDictionary(this.dictionary);
+
     /* this.commonService.cast.subscribe((word) => {
       word.id = dictionary[dictionary.length - 1].id;
       console.log('word: ', word);
@@ -106,7 +112,7 @@ export class DictionaryComponent implements OnInit, OnChanges, DoCheck, AfterVie
     }); */
   }
 
-  ngDoCheck() {
+  /*ngDoCheck() {
     console.log('ngDoCheck called');
     this.commonService.cast.subscribe((dictionary) => {
       console.log('word checked?');
@@ -116,13 +122,9 @@ export class DictionaryComponent implements OnInit, OnChanges, DoCheck, AfterVie
     }, (error) => {
       console.log(error);
     });
-    this.dataSource._updateChangeSubscription();
-    this.dataSource.sort = this.sort;
-  }
-
-  ngAfterViewInit() {
-    // this.dataSource.paginator = this.paginator;
+    // this.dataSource._updateChangeSubscription();
     // this.dataSource.sort = this.sort;
-  }
+  }*/
+
 }
 
