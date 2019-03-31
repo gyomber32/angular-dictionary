@@ -1,4 +1,4 @@
-import { Component, ViewChild, OnInit, OnChanges, DoCheck, AfterViewInit, ChangeDetectorRef, Input } from '@angular/core';
+import { Component, ViewChild, OnInit, OnChanges, ChangeDetectorRef, Input } from '@angular/core';
 import { MatPaginator, MatSort, MatTableDataSource, MatDialog } from '@angular/material';
 
 import { DeleteDialogComponent } from './delete-dialog/delete-dialog.comoponent';
@@ -14,11 +14,12 @@ import { DictionaryElement } from '../dictionary.interface';
   templateUrl: './dictionary.component.html',
   styleUrls: ['./dictionary.component.css']
 })
-export class DictionaryComponent implements OnInit, OnChanges, DoCheck, AfterViewInit {
+export class DictionaryComponent implements OnInit, OnChanges {
 
-  private displayedColumns: string[] = ['id', 'english', 'hungarian', 'partsOfSpeech', 'synonym', 'example', 'actions'];
-  @Input() dataSource: MatTableDataSource<DictionaryElement>;
-  @Input() dictionary: DictionaryElement[] = [];
+  private displayedColumns: string[] = ['english', 'hungarian', 'partsOfSpeech', 'synonym', 'example', 'actions'];
+  private dataSource: MatTableDataSource<DictionaryElement>;
+  private dictionary: DictionaryElement[] = [];
+  @Input() word: DictionaryElement;
 
   constructor(
     private dictionaryService: DictionaryService,
@@ -53,6 +54,8 @@ export class DictionaryComponent implements OnInit, OnChanges, DoCheck, AfterVie
         };
         this.dictionary.push(wordJSON);
       });
+      this.dataSource._updateChangeSubscription();
+      this.dataSource.paginator = this.paginator;
     }, (error) => {
       console.log(error);
     });
@@ -63,13 +66,11 @@ export class DictionaryComponent implements OnInit, OnChanges, DoCheck, AfterVie
     const modifyDialogRef = this.modifyDialog.open(ModifyDialogComponent);
 
     modifyDialogRef.afterClosed().subscribe(result => {
-      this.commonService.cast.subscribe((word) => {
-        for (let i = 0; i < this.dictionary.length; i++) {
-          if (this.dictionary[i].id === word.id) {
-            this.dictionary[i] = word;
-          }
-        }
+      this.commonService.cast.subscribe((words) => {
+        this.dictionary = words;
       });
+      this.dataSource._updateChangeSubscription();
+      this.dataSource.sort = this.sort;
       console.log('The modifyDialog was closed!');
     });
   }
@@ -82,47 +83,26 @@ export class DictionaryComponent implements OnInit, OnChanges, DoCheck, AfterVie
     });
 
     deleteDialogRef.afterClosed().subscribe(result => {
+      this.commonService.cast.subscribe((words) => {
+        this.dictionary = words;
+      });
+      this.dataSource._updateChangeSubscription();
+      this.dataSource.sort = this.sort;
       console.log('The deleteDialog was closed!');
     });
   }
 
   ngOnChanges() {
-    console.log('ngOnChange called');
-    this.getAllWords();
-    /*this.dataSource._updateChangeSubscription();
-    this.dataSource.sort = this.sort;*/
-  }
-
-  ngOnInit() {
-    console.log('onInit');
-    this.getAllWords();
-    this.commonService.updateDictionary(this.dictionary);
-    /*this.dataSource._updateChangeSubscription();
-    this.dataSource.sort = this.sort;*/
-    /* this.commonService.cast.subscribe((word) => {
-      word.id = dictionary[dictionary.length - 1].id;
-      console.log('word: ', word);
-      dictionary.push(word);
-    }); */
-  }
-
-  ngDoCheck() {
-    console.log('ngDoCheck called');
-    this.commonService.cast.subscribe((dictionary) => {
-      console.log('word checked?');
-      this.dictionary = [];
-      this.dictionary = dictionary;
-      console.log(this.dictionary);
-    }, (error) => {
-      console.log(error);
-    });
     this.dataSource._updateChangeSubscription();
     this.dataSource.sort = this.sort;
   }
 
-  ngAfterViewInit() {
-    // this.dataSource.paginator = this.paginator;
-    // this.dataSource.sort = this.sort;
+  ngOnInit() {
+    this.getAllWords();
+    this.commonService.updateDictionary(this.dictionary);
+    this.dataSource._updateChangeSubscription();
+    this.dataSource.sort = this.sort;
   }
+
 }
 

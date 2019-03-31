@@ -84,11 +84,8 @@ export class ModifyDialogComponent implements OnInit {
                 };
                 for (let i = 0; i < this.dictionary.length; i++) {
                     if (this.dictionary[i].id === id) {
-                        // this.dictionary.splice(i, 1);
-                        // console.log('word: ', this.dictionary);
                         this.dictionary[i] = word;
                         this.commonService.updateDictionary(this.dictionary);
-                        console.log('modified: ', this.dictionary);
                     }
                 }
                 this.modifyDialogRef.close();
@@ -105,7 +102,6 @@ export class ModifyDialogComponent implements OnInit {
     ngOnInit() {
         this.formValidator();
         this.getOneWord();
-        console.log('onInit in modifyDialog');
         this.commonService.cast.subscribe((dictionary) => {
             this.dictionary = dictionary;
         }, (error) => {

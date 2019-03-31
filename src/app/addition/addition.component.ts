@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { DictionaryService } from '../services/dictionary.service';
@@ -15,6 +15,7 @@ export class AdditionComponent implements OnInit {
 
   private additionForm: FormGroup;
   private dictionary: DictionaryElement[] = [];
+  @Output() wordEmitter = new EventEmitter<DictionaryElement>();
 
   constructor(private dictionaryService: DictionaryService, private commonService: CommonService, private formBuilder: FormBuilder) { }
 
@@ -54,6 +55,7 @@ export class AdditionComponent implements OnInit {
           'example': example
         };
         this.dictionary.push(word);
+        this.wordEmitter.emit(word);
         this.commonService.updateDictionary(this.dictionary);
         this.additionForm.setValue({
           ['english']: '',
@@ -62,7 +64,6 @@ export class AdditionComponent implements OnInit {
           ['synonym']: '',
           ['example']: ''
         });
-        // this.paginator.length += 1;
       }, (error) => {
         console.log(error);
         alert('Error during adding to database.');
