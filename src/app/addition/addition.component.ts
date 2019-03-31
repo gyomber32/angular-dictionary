@@ -76,7 +76,7 @@ export class AdditionComponent implements OnInit, OnChanges {
     }
   }
 
-  onSubmit() {
+  async onSubmit() {
     // stop here if form is invalid
     if (this.additionForm.invalid) {
       return;
@@ -86,7 +86,13 @@ export class AdditionComponent implements OnInit, OnChanges {
       const partsOfSpeech = this.additionForm.get('partsOfSpeech').value;
       const synonym = this.additionForm.get('synonym').value;
       const example = this.additionForm.get('example').value;
-      this.checkWordInDatabase(english, partsOfSpeech).then(data => {
+      await this.commonService.cast.subscribe((dictionary) => {
+        this.dictionary = [];
+        this.dictionary = dictionary;
+      }, (error) => {
+        console.log(error);
+      });
+      await this.checkWordInDatabase(english, partsOfSpeech).then(data => {
         if (data === true) {
           alert('The word is already in the database!');
         } else {
