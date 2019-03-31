@@ -27,6 +27,7 @@ export class DeleteDialogComponent implements OnInit {
                 if (this.dictionary[i].id === id) {
                     this.dictionary.splice(i, 1);
                     this.commonService.updateDictionary(this.dictionary);
+                    alert('The word has been delted from database!');
                 }
             }
         }, (error) => {

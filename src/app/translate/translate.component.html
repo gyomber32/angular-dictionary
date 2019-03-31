@@ -14,7 +14,8 @@
         <mat-form-field class='form-field'>
             <input matInput placeholder="Hungarian word" [(ngModel)]='hungarianWord'>
         </mat-form-field>
-        <button class='button' mat-raised-button color='primary' (click)='translate()'>
+        <button class='button' mat-raised-button color='primary' (click)='translate()'
+            [disabled]='translateButtonDisabled'>
             <mat-icon>translate</mat-icon>
         </button>
         <!-- DIASBLE THE BUTTON, UNTIL AIN`T GOT A PRESPONSE, TO AVOID MORE THAN ON HTTP REQUEST-->
@@ -29,7 +30,8 @@
         <mat-form-field class='form-field'>
             <input matInput placeholder="English word" [(ngModel)]='englishWord'>
         </mat-form-field>
-        <button class='button' mat-raised-button color='primary' (click)='translate()'>
+        <button class='button' mat-raised-button color='primary' (click)='translate()'
+            [disabled]='translateButtonDisabled'>
             <mat-icon>translate</mat-icon>
         </button>
         <!-- DIASBLE THE BUTTON, UNTIL AIN`T GOT A PRESPONSE, TO AVOID MORE THAN ON HTTP REQUEST-->

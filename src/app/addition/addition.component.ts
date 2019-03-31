@@ -1,4 +1,4 @@
-import { Component, OnInit, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, OnChanges, EventEmitter, Input, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { DictionaryService } from '../services/dictionary.service';
@@ -11,11 +11,13 @@ import { DictionaryElement } from '../dictionary.interface';
   templateUrl: './addition.component.html',
   styleUrls: ['./addition.component.css']
 })
-export class AdditionComponent implements OnInit {
+export class AdditionComponent implements OnInit, OnChanges {
 
   private additionForm: FormGroup;
   private dictionary: DictionaryElement[] = [];
   @Output() wordEmitter = new EventEmitter<DictionaryElement>();
+  @Input() englishWord = '';
+  @Input() hungarianWord = '';
 
   constructor(private dictionaryService: DictionaryService, private commonService: CommonService, private formBuilder: FormBuilder) { }
 
@@ -45,7 +47,6 @@ export class AdditionComponent implements OnInit {
   public addToDatabase(english: string, hungarian: string, partsOfSpeech: string, synonym: string, example: string): void {
     try {
       this.dictionaryService.addWord(english, hungarian, partsOfSpeech, synonym, example).subscribe(_ => {
-        // alert('Successfully added to database.');
         const word = {
           'id': this.dictionary.length > 0 ? (this.dictionary[this.dictionary.length - 1].id + 1) : 1,
           'english': english,
@@ -64,6 +65,7 @@ export class AdditionComponent implements OnInit {
           ['synonym']: '',
           ['example']: ''
         });
+        alert('Successfully added to database.');
       }, (error) => {
         console.log(error);
         alert('Error during adding to database.');
@@ -91,6 +93,12 @@ export class AdditionComponent implements OnInit {
           this.addToDatabase(english, hungarian, partsOfSpeech, synonym, example);
         }
       });
+    }
+  }
+
+  ngOnChanges() {
+    if (this.englishWord !== undefined && this.hungarianWord !== undefined) {
+      this.additionForm.setValue({ english: this.englishWord, hungarian: this.hungarianWord, partsOfSpeech: '', synonym: '', example: '' });
     }
   }
 

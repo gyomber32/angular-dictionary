@@ -11,10 +11,18 @@ export class AppComponent implements OnInit, OnChanges {
   title = 'dictionary';
 
   @Input() word: DictionaryElement[];
+  @Input() translatedWords: string[];
+  private englishWord: string;
+  private hungarianWord: string;
 
-  addedWord(event) {
+  public addedWord(event): void {
     console.log(event);
     this.word = event;
+  }
+
+  public translatedWords(event): void {
+    this.englishWord = event[0];
+    this.hungarianWord = event[1];
   }
 
   ngOnChanges() {

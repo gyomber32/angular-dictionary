@@ -1,4 +1,4 @@
-import { Component, ViewChild, OnInit, OnChanges, ChangeDetectorRef, Input } from '@angular/core';
+import { Component, ViewChild, OnInit, OnChanges, Input } from '@angular/core';
 import { MatPaginator, MatSort, MatTableDataSource, MatDialog } from '@angular/material';
 
 import { DeleteDialogComponent } from './delete-dialog/delete-dialog.comoponent';
@@ -25,8 +25,7 @@ export class DictionaryComponent implements OnInit, OnChanges {
     private dictionaryService: DictionaryService,
     private commonService: CommonService,
     private modifyDialog: MatDialog,
-    private deleteDialog: MatDialog,
-    private changeDetectorRefs: ChangeDetectorRef) {
+    private deleteDialog: MatDialog) {
     this.dataSource = new MatTableDataSource(this.dictionary);
     this.dataSource.paginator = this.paginator;
   }

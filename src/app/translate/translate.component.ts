@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output } from '@angular/core';
+
+import { TranslateService } from '../services/translate.service';
 
 @Component({
   selector: 'app-translate',
@@ -7,11 +9,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TranslateComponent implements OnInit {
 
+  private translateButtonDisabled = false;
   private swap: boolean;
   private hungarianWord: string;
   private englishWord: string;
+  @Output() wordsEmitter = new EventEmitter<string[]>();
 
-  constructor() { }
+  constructor(private translateService: TranslateService) { }
 
   public swapLanguage(): void {
     if (this.swap === true) {
@@ -19,22 +23,39 @@ export class TranslateComponent implements OnInit {
     } else {
       this.swap = true;
     }
-    console.log(this.swap);
   }
 
-  public englishToHungarian(): void {
-
+  public englishToHungarian(word: string): void {
+    this.translateButtonDisabled = true;
+    this.translateService.englishToHungarian(word).subscribe((hungarianWord) => {
+      this.hungarianWord = hungarianWord;
+      const translatedWords: Array<string> = [this.englishWord, this.hungarianWord];
+      this.wordsEmitter.emit(translatedWords);
+      this.translateButtonDisabled = false;
+    }, (error) => {
+      this.translateButtonDisabled = false;
+      console.log(error);
+    });
   }
 
-  public hungarianToEnglish(): void {
-
+  public hungarianToEnglish(word: string): void {
+    this.translateButtonDisabled = true;
+    this.translateService.hungarianToEnglish(word).subscribe((englishWord) => {
+      this.englishWord = englishWord;
+      const translatedWords: Array<string> = [this.englishWord, this.hungarianWord];
+      this.wordsEmitter.emit(translatedWords);
+      this.translateButtonDisabled = false;
+    }, (error) => {
+      this.translateButtonDisabled = false;
+      console.log(error);
+    });
   }
 
   public translate(): void {
     if (this.swap === true) {
-      console.log('EnglishToHungarian');
+      this.englishToHungarian(this.englishWord);
     } else {
-      console.log('HungarianToEnglish');
+      this.hungarianToEnglish(this.hungarianWord);
     }
   }
 

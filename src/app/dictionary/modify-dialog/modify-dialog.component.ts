@@ -86,12 +86,14 @@ export class ModifyDialogComponent implements OnInit {
                     if (this.dictionary[i].id === id) {
                         this.dictionary[i] = word;
                         this.commonService.updateDictionary(this.dictionary);
+                        alert('The word has been modified in the database!');
                     }
                 }
-                this.modifyDialogRef.close();
             }, (error) => {
                 console.log(error);
+                alert('Error occurred during modify!');
             });
+            this.modifyDialogRef.close();
         }
     }
 
