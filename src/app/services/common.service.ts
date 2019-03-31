@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, EventEmitter } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 
 import { DictionaryElement } from '../dictionary.interface';
@@ -9,6 +9,7 @@ import { DictionaryElement } from '../dictionary.interface';
 export class CommonService {
 
   private dictionary = new BehaviorSubject<DictionaryElement[]>([]);
+  private emittDictionary = new EventEmitter<any>();
 
   constructor() { }
 

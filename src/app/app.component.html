@@ -1,3 +1,3 @@
-<app-dictionary></app-dictionary>
+<app-dictionary [word]="word"></app-dictionary>
 <app-translate></app-translate>
-<app-addition></app-addition>
+<app-addition (wordEmitter)='addedWord($event)'></app-addition>
