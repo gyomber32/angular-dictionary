@@ -1,10 +1,14 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material';
+import { MatSnackBar, MatSnackBarConfig } from '@angular/material';
 
 import { CommonService } from '../../services/common.service';
 import { DictionaryService } from '../../services/dictionary.service';
 
 import { DictionaryElement } from '../../dictionary.interface';
+
+const config = new MatSnackBarConfig();
+config.duration = 5000;
 
 @Component({
     selector: 'app-delete-dialog',
@@ -18,7 +22,8 @@ export class DeleteDialogComponent implements OnInit {
     constructor(
         private dictionaryService: DictionaryService,
         private commonService: CommonService,
-        private deleteDialogRef: MatDialogRef<DeleteDialogComponent>) { }
+        private deleteDialogRef: MatDialogRef<DeleteDialogComponent>,
+        private snackBar: MatSnackBar) { }
 
     public yes(): void {
         const id = Number(localStorage.getItem('delID'));
@@ -27,12 +32,12 @@ export class DeleteDialogComponent implements OnInit {
                 if (this.dictionary[i].id === id) {
                     this.dictionary.splice(i, 1);
                     this.commonService.updateDictionary(this.dictionary);
-                    alert('The word has been delted from database!');
+                    this.snackBar.open('The word has been deleted from database!', 'Successful', config);
                 }
             }
         }, (error) => {
             console.log(error);
-            alert('Error occurred during delete!');
+            this.snackBar.open('Error occurred during delete!', 'Unsuccessful', config);
         });
         this.deleteDialogRef.close();
     }

@@ -3,9 +3,14 @@ import { MatDialogRef } from '@angular/material';
 import { DictionaryService } from '../../services/dictionary.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
+import { MatSnackBar, MatSnackBarConfig } from '@angular/material';
+
 import { CommonService } from '../../services/common.service';
 
 import { DictionaryElement } from '../../dictionary.interface';
+
+const config = new MatSnackBarConfig();
+config.duration = 5000;
 
 @Component({
     selector: 'app-modify-dialog',
@@ -21,7 +26,8 @@ export class ModifyDialogComponent implements OnInit {
         private dictionaryService: DictionaryService,
         private commonService: CommonService,
         private formBuilder: FormBuilder,
-        private modifyDialogRef: MatDialogRef<ModifyDialogComponent>) { }
+        private modifyDialogRef: MatDialogRef<ModifyDialogComponent>,
+        private snackBar: MatSnackBar) { }
 
     public formValidator() {
         this.modifyForm = this.formBuilder.group({
@@ -86,12 +92,12 @@ export class ModifyDialogComponent implements OnInit {
                     if (this.dictionary[i].id === id) {
                         this.dictionary[i] = word;
                         this.commonService.updateDictionary(this.dictionary);
-                        alert('The word has been modified in the database!');
+                        this.snackBar.open('The word has been modified in the database!', 'Successful', config);
                     }
                 }
             }, (error) => {
                 console.log(error);
-                alert('Error occurred during modify!');
+                this.snackBar.open('Error occurred during modify!', 'Unsuccessful', config);
             });
             this.modifyDialogRef.close();
         }

@@ -1,10 +1,14 @@
 import { Component, OnInit, OnChanges, EventEmitter, Input, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatSnackBar, MatSnackBarConfig } from '@angular/material';
 
 import { DictionaryService } from '../services/dictionary.service';
 import { CommonService } from '../services/common.service';
 
 import { DictionaryElement } from '../dictionary.interface';
+
+const config = new MatSnackBarConfig();
+config.duration = 5000;
 
 @Component({
   selector: 'app-addition',
@@ -19,7 +23,11 @@ export class AdditionComponent implements OnInit, OnChanges {
   @Input() englishWord = '';
   @Input() hungarianWord = '';
 
-  constructor(private dictionaryService: DictionaryService, private commonService: CommonService, private formBuilder: FormBuilder) { }
+  constructor(
+    private dictionaryService: DictionaryService,
+    private commonService: CommonService,
+    private formBuilder: FormBuilder,
+    private snackBar: MatSnackBar) { }
 
   public formValidator() {
     this.additionForm = this.formBuilder.group({
@@ -44,9 +52,15 @@ export class AdditionComponent implements OnInit, OnChanges {
     }
   }
 
-  public addToDatabase(english: string, hungarian: string, partsOfSpeech: string, synonym: string, example: string): void {
+  public async addToDatabase(english: string, hungarian: string, partsOfSpeech: string, synonym: string, example: string) {
     try {
-      this.dictionaryService.addWord(english, hungarian, partsOfSpeech, synonym, example).subscribe(_ => {
+      await this.commonService.cast.subscribe((dictionary) => {
+        this.dictionary = [];
+        this.dictionary = dictionary;
+      }, (error) => {
+        console.log(error);
+      });
+      await this.dictionaryService.addWord(english, hungarian, partsOfSpeech, synonym, example).subscribe(_ => {
         const word = {
           'id': this.dictionary.length > 0 ? (this.dictionary[this.dictionary.length - 1].id + 1) : 1,
           'english': english,
@@ -58,25 +72,19 @@ export class AdditionComponent implements OnInit, OnChanges {
         this.dictionary.push(word);
         this.wordEmitter.emit(word);
         this.commonService.updateDictionary(this.dictionary);
-        this.additionForm.setValue({
-          ['english']: '',
-          ['hungarian']: '',
-          ['partsOfSpeech']: '',
-          ['synonym']: '',
-          ['example']: ''
-        });
-        alert('Successfully added to database.');
+        this.additionForm.reset();
+        this.snackBar.open('Successfully added to database!', 'Successful', config);
       }, (error) => {
         console.log(error);
-        alert('Error during adding to database.');
+        this.snackBar.open('Error during adding to database!', 'Unsuccessful', config);
       });
     } catch (error) {
       console.log(error);
-      alert('Error during adding to database.');
+      this.snackBar.open('Error during adding to database!', 'Unsuccessful', config);
     }
   }
 
-  async onSubmit() {
+  onSubmit() {
     // stop here if form is invalid
     if (this.additionForm.invalid) {
       return;
@@ -86,15 +94,9 @@ export class AdditionComponent implements OnInit, OnChanges {
       const partsOfSpeech = this.additionForm.get('partsOfSpeech').value;
       const synonym = this.additionForm.get('synonym').value;
       const example = this.additionForm.get('example').value;
-      await this.commonService.cast.subscribe((dictionary) => {
-        this.dictionary = [];
-        this.dictionary = dictionary;
-      }, (error) => {
-        console.log(error);
-      });
-      await this.checkWordInDatabase(english, partsOfSpeech).then(data => {
+      this.checkWordInDatabase(english, partsOfSpeech).then(data => {
         if (data === true) {
-          alert('The word is already in the database!');
+          this.snackBar.open('The word is already in the database!', 'Watch out', config);
         } else {
           this.addToDatabase(english, hungarian, partsOfSpeech, synonym, example);
         }

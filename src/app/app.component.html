@@ -1,3 +1,7 @@
 <app-dictionary [word]="word"></app-dictionary>
-<app-translate (wordsEmitter)=translatedWords($event)></app-translate>
-<app-addition (wordEmitter)='addedWord($event)' [englishWord]='englishWord' [hungarianWord]='hungarianWord'></app-addition>
+<div class='container'>
+    <app-translate id='translate' (wordsEmitter)=translatedWords($event)></app-translate>
+    <app-addition id='addition' (wordEmitter)='addedWord($event)' [englishWord]='englishWord'
+        [hungarianWord]='hungarianWord'>
+    </app-addition>
+</div>

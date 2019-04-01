@@ -8,32 +8,30 @@
         <mat-form-field class='form-field'>
             <input matInput placeholder="English word" [(ngModel)]='englishWord'>
         </mat-form-field>
-        <button class='button' mat-raised-button color='primary' (click)='swapLanguage()'>
+        <button class='button' mat-raised-button color='primary' (click)='swapLanguage()' matTooltip="Swap languages">
             <mat-icon>swap_horiz</mat-icon>
         </button>
         <mat-form-field class='form-field'>
             <input matInput placeholder="Hungarian word" [(ngModel)]='hungarianWord'>
         </mat-form-field>
-        <button class='button' mat-raised-button color='primary' (click)='translate()'
+        <button class='button' mat-raised-button color='primary' (click)='translate()' matTooltip="Translate word"
             [disabled]='translateButtonDisabled'>
             <mat-icon>translate</mat-icon>
         </button>
-        <!-- DIASBLE THE BUTTON, UNTIL AIN`T GOT A PRESPONSE, TO AVOID MORE THAN ON HTTP REQUEST-->
     </ng-template>
     <ng-template #elseBlock>
         <mat-form-field class='form-field'>
             <input matInput placeholder="Hungarian word" [(ngModel)]='hungarianWord'>
         </mat-form-field>
-        <button class='button' mat-raised-button color='primary' (click)='swapLanguage()'>
+        <button class='button' mat-raised-button color='primary' (click)='swapLanguage()' matTooltip="Swap languages">
             <mat-icon>swap_horiz</mat-icon>
         </button>
         <mat-form-field class='form-field'>
             <input matInput placeholder="English word" [(ngModel)]='englishWord'>
         </mat-form-field>
-        <button class='button' mat-raised-button color='primary' (click)='translate()'
+        <button class='button' mat-raised-button color='primary' (click)='translate()' matTooltip="Translate word"
             [disabled]='translateButtonDisabled'>
             <mat-icon>translate</mat-icon>
         </button>
-        <!-- DIASBLE THE BUTTON, UNTIL AIN`T GOT A PRESPONSE, TO AVOID MORE THAN ON HTTP REQUEST-->
     </ng-template>
 </mat-card>

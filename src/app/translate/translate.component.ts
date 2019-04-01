@@ -1,6 +1,11 @@
 import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 
+import { MatSnackBar, MatSnackBarConfig } from '@angular/material';
+
 import { TranslateService } from '../services/translate.service';
+
+const config = new MatSnackBarConfig();
+config.duration = 5000;
 
 @Component({
   selector: 'app-translate',
@@ -15,7 +20,7 @@ export class TranslateComponent implements OnInit {
   private englishWord: string;
   @Output() wordsEmitter = new EventEmitter<string[]>();
 
-  constructor(private translateService: TranslateService) { }
+  constructor(private translateService: TranslateService, private snackBar: MatSnackBar) { }
 
   public swapLanguage(): void {
     if (this.swap === true) {
@@ -26,29 +31,35 @@ export class TranslateComponent implements OnInit {
   }
 
   public englishToHungarian(word: string): void {
-    this.translateButtonDisabled = true;
-    this.translateService.englishToHungarian(word).subscribe((hungarianWord) => {
-      this.hungarianWord = hungarianWord;
-      const translatedWords: Array<string> = [this.englishWord, this.hungarianWord];
-      this.wordsEmitter.emit(translatedWords);
-      this.translateButtonDisabled = false;
-    }, (error) => {
-      this.translateButtonDisabled = false;
-      console.log(error);
-    });
+    if (this.englishWord !== undefined) {
+      this.translateButtonDisabled = true;
+      this.translateService.englishToHungarian(word).subscribe((hungarianWord) => {
+        this.hungarianWord = hungarianWord;
+        const translatedWords: Array<string> = [this.englishWord, this.hungarianWord];
+        this.wordsEmitter.emit(translatedWords);
+        this.translateButtonDisabled = false;
+      }, (error) => {
+        this.translateButtonDisabled = false;
+        console.log(error);
+        this.snackBar.open('The translation has been failed!', 'Unsuccessful', config);
+      });
+    }
   }
 
   public hungarianToEnglish(word: string): void {
-    this.translateButtonDisabled = true;
-    this.translateService.hungarianToEnglish(word).subscribe((englishWord) => {
-      this.englishWord = englishWord;
-      const translatedWords: Array<string> = [this.englishWord, this.hungarianWord];
-      this.wordsEmitter.emit(translatedWords);
-      this.translateButtonDisabled = false;
-    }, (error) => {
-      this.translateButtonDisabled = false;
-      console.log(error);
-    });
+    if (this.hungarianWord !== undefined) {
+      this.translateButtonDisabled = true;
+      this.translateService.hungarianToEnglish(word).subscribe((englishWord) => {
+        this.englishWord = englishWord;
+        const translatedWords: Array<string> = [this.englishWord, this.hungarianWord];
+        this.wordsEmitter.emit(translatedWords);
+        this.translateButtonDisabled = false;
+      }, (error) => {
+        this.translateButtonDisabled = false;
+        console.log(error);
+        this.snackBar.open('The translation has been failed!', 'Unsuccessful', config);
+      });
+    }
   }
 
   public translate(): void {
