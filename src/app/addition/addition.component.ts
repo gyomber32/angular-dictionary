@@ -61,8 +61,14 @@ export class AdditionComponent implements OnInit, OnChanges {
         console.log(error);
       });
       await this.dictionaryService.addWord(english, hungarian, partsOfSpeech, synonym, example).subscribe(_ => {
+        let lastID = null;
+        this.commonService.castID.subscribe((id) => {
+          lastID = id + 1;
+        }, (error) => {
+          console.log(error);
+        });
         const word = {
-          'id': this.dictionary.length > 0 ? (this.dictionary[this.dictionary.length - 1].id + 1) : 1,
+          'id': this.dictionary.length > 0 ? (lastID) : 1,
           'english': english,
           'hungarian': hungarian,
           'partsOfSpeech': partsOfSpeech,
@@ -72,6 +78,7 @@ export class AdditionComponent implements OnInit, OnChanges {
         this.dictionary.push(word);
         this.wordEmitter.emit(word);
         this.commonService.updateDictionary(this.dictionary);
+        this.commonService.updateID(lastID);
         this.additionForm.reset();
         this.snackBar.open('Successfully added to database!', 'Successful', config);
       }, (error) => {

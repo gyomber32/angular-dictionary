@@ -1,4 +1,4 @@
-import { Component, ViewChild, OnInit, OnChanges, Input } from '@angular/core';
+import { Component, ViewChild, OnInit, OnChanges, Input, AfterViewInit } from '@angular/core';
 import { MatPaginator, MatSort, MatTableDataSource, MatDialog } from '@angular/material';
 
 import { DeleteDialogComponent } from './delete-dialog/delete-dialog.comoponent';
@@ -14,7 +14,7 @@ import { DictionaryElement } from '../dictionary.interface';
   templateUrl: './dictionary.component.html',
   styleUrls: ['./dictionary.component.css']
 })
-export class DictionaryComponent implements OnInit, OnChanges {
+export class DictionaryComponent implements OnInit, OnChanges, AfterViewInit {
 
   private displayedColumns: string[] = ['english', 'hungarian', 'partsOfSpeech', 'synonym', 'example', 'actions'];
   private dataSource: MatTableDataSource<DictionaryElement>;
@@ -98,9 +98,14 @@ export class DictionaryComponent implements OnInit, OnChanges {
 
   ngOnInit() {
     this.getAllWords();
-    this.commonService.updateDictionary(this.dictionary);
     this.dataSource._updateChangeSubscription();
-    this.dataSource.sort = this.sort;
+  }
+
+  ngAfterViewInit() {
+    this.commonService.updateDictionary(this.dictionary);
+    setTimeout(() => {
+      this.commonService.updateID(this.dictionary[this.dictionary.length - 1].id);
+    }, 0);
   }
 
 }

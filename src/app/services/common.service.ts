@@ -8,15 +8,26 @@ import { DictionaryElement } from '../dictionary.interface';
 })
 export class CommonService {
 
+  private id = new BehaviorSubject<number>(null);
+  private emittID = new EventEmitter<number>();
+
   private dictionary = new BehaviorSubject<DictionaryElement[]>([]);
   private emittDictionary = new EventEmitter<any>();
 
   constructor() { }
 
+  castID = this.id.asObservable();
+
   cast = this.dictionary.asObservable();
 
-  updateDictionary(newDictionray) {
+  updateID(newID): void {
+    this.id.next(newID);
+    console.log('id in service: ', this.id);
+  }
+
+  updateDictionary(newDictionray): void {
     this.dictionary.next(newDictionray);
+    console.log('word in service: ', this.dictionary);
   }
 
 }
