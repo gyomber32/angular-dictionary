@@ -70,7 +70,6 @@ export class DictionaryComponent implements OnInit, OnChanges, AfterViewInit {
       });
       this.dataSource._updateChangeSubscription();
       this.dataSource.sort = this.sort;
-      console.log('The modifyDialog was closed!');
     });
   }
 
@@ -87,7 +86,6 @@ export class DictionaryComponent implements OnInit, OnChanges, AfterViewInit {
       });
       this.dataSource._updateChangeSubscription();
       this.dataSource.sort = this.sort;
-      console.log('The deleteDialog was closed!');
     });
   }
 
@@ -105,7 +103,7 @@ export class DictionaryComponent implements OnInit, OnChanges, AfterViewInit {
     this.commonService.updateDictionary(this.dictionary);
     setTimeout(() => {
       this.commonService.updateID(this.dictionary[this.dictionary.length - 1].id);
-    }, 0);
+    }, 5000);
   }
 
 }

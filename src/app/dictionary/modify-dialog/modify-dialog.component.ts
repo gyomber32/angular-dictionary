@@ -109,12 +109,12 @@ export class ModifyDialogComponent implements OnInit {
 
     ngOnInit() {
         this.formValidator();
-        this.getOneWord();
         this.commonService.cast.subscribe((dictionary) => {
             this.dictionary = dictionary;
         }, (error) => {
             console.log(error);
         });
+        this.getOneWord();
     }
 
 }

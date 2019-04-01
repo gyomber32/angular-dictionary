@@ -22,12 +22,10 @@ export class CommonService {
 
   updateID(newID): void {
     this.id.next(newID);
-    console.log('id in service: ', this.id);
   }
 
   updateDictionary(newDictionray): void {
     this.dictionary.next(newDictionray);
-    console.log('word in service: ', this.dictionary);
   }
 
 }
