@@ -1,37 +1,46 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-
-import { DictionaryApi } from '../sdk/services/custom/Dictionary';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DictionaryService {
 
-  constructor(private dictionaryApi: DictionaryApi) { }
+  constructor(private http: HttpClient) { }
 
-  public addWord(english: string, hungarian: string, partsOfSpeech: string, synonym?: string, example?: string): Observable<any> {
-    return this.dictionaryApi.addWord(english, hungarian, partsOfSpeech, synonym, example);
+  public addWord(english: string, details: []): Observable<any> {
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+    const body = {
+      word: english,
+      details: details
+    };
+    return this.http.post('http://localhost:3000/dictionary/word', body, { headers });
   }
 
   public getAllWords(): Observable<any> {
-    return this.dictionaryApi.getAllWords();
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.http.get('http://localhost:3000/dictionary/word', { headers });
   }
 
-  public getOneWord(id: number): Observable<any> {
-    return this.dictionaryApi.getOneWord(id);
+  public getOneWord(id: string): Observable<any> {
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.http.get(`http://localhost:3000/dictionary/word/${id}`, { headers });
   }
 
-  public checkWord(english: string, partsOfSpeech: string): Observable<any> {
-    return this.dictionaryApi.checkWord(english, partsOfSpeech);
+  public modifyWord(id: string, english: string, details: []): Observable<any> {
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+    const body = {
+      word: english,
+      details: details
+    };
+    return this.http.put(`http://localhost:3000/dictionary/word/${id}`, body, { headers });
   }
 
-  public modifyWord(id: number, english: string, hungarian: string, partsOfSpeech: string, synonym?: string, example?: string): Observable<any> {
-    return this.dictionaryApi.modifyWord(id, english, hungarian, partsOfSpeech, synonym, example);
-  }
-
-  public deleteWord(id: number): Observable<any> {
-    return this.dictionaryApi.deleteWord(id);
+  public deleteWord(id: string): Observable<any> {
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+    console.log(id);
+    return this.http.delete(`http://localhost:3000/dictionary/word/${id}`, { headers });
   }
 
 }

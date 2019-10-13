@@ -1,42 +1,87 @@
-<h1 style='text-align: center;'>Modify</h1>
-<form class="form" [formGroup]="modifyForm" (ngSubmit)="onSubmit()">
-  <mat-form-field class='form-field'>
-    <input type="text" formControlName="english"
-      [ngClass]="{ 'is-invalid': additionSubmitted && getAdditionForm.english.errors }" matInput placeholder="English">
-    <div *ngIf="additionSubmitted && getAdditionForm.english.errors" class="invalid-feedback">
-      <div *ngIf="getAdditionForm.english.errors.required">The english word is required!</div>
+<h1 style="text-align: center;">Modify</h1>
+<form class="form" mat-dialog-content [formGroup]="modifyForm" (ngSubmit)="onSubmit()">
+  <mat-form-field class="form-field">
+    <input
+      type="text"
+      formControlName="english"
+      matInput
+      placeholder="English"
+    />
+  </mat-form-field>
+  <div
+    formArrayName="details"
+    *ngFor="let details of modifyForm.get('details').controls; let i = index"
+  >
+    <div [formGroupName]="i" class="details">
+      <mat-form-field class="form-field">
+        <input
+          type="text"
+          formControlName="hungarian"
+          matInput
+          placeholder="Hungarian"
+        />
+      </mat-form-field>
+      <mat-form-field class="form-field">
+        <mat-select
+          type="text"
+          formControlName="partsOfSpeech"
+          placeholder="Parts of Speech"
+        >
+          <mat-option value="noun">noun</mat-option>
+          <mat-option value="pronoun">pronoun</mat-option>
+          <mat-option value="adjective">adjective</mat-option>
+          <mat-option value="verb">verb</mat-option>
+          <mat-option value="adverb">adverb</mat-option>
+          <mat-option value="preposition">preposition</mat-option>
+          <mat-option value="conjunction">conjunction</mat-option>
+          <mat-option value="interjenction">interjenction</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class="form-field">
+        <input
+          type="text"
+          formControlName="synonym"
+          matInput
+          placeholder="Synonym"
+        />
+      </mat-form-field>
+      <mat-form-field class="form-field">
+        <input
+          type="text"
+          formControlName="example"
+          matInput
+          placeholder="Example"
+        />
+      </mat-form-field>
+
+      <div *ngIf="!modifyForm.valid && modifyForm.touched" class="error">
+        Please please fill the form with valid data!
+      </div>
     </div>
-  </mat-form-field>
-  <mat-form-field class='form-field'>
-    <input type="text" formControlName="hungarian"
-      [ngClass]="{ 'is-invalid': additionSubmitted && getAdditionForm.hungarian.errors }" matInput
-      placeholder="Hungarian">
-    <div *ngIf="additionSubmitted && getAdditionForm.hungarian.errors" class="invalid-feedback">
-      <div *ngIf="getAdditionForm.hungarian.errors.required">The hungarian word is required!</div>
-    </div>
-  </mat-form-field>
-  <mat-form-field class='form-field'>
-    <mat-select type="text" formControlName="partsOfSpeech"
-      [ngClass]="{ 'is-invalid': additionSubmitted && getAdditionForm.partsOfSpeech.errors }"
-      placeholder="Parts of Speech">
-      <mat-option value="noun">noun</mat-option>
-      <mat-option value="pronoun">pronoun</mat-option>
-      <mat-option value="adjective">adjective</mat-option>
-      <mat-option value="verb">verb</mat-option>
-      <mat-option value="adverb">adverb</mat-option>
-      <mat-option value="preposition">preposition</mat-option>
-      <mat-option value="conjunction">conjunction</mat-option>
-      <mat-option value="interjenction">interjenction</mat-option>
-    </mat-select>
-    <div *ngIf="additionSubmitted && getAdditionForm.partsOfSpeach.errors" class="invalid-feedback">
-      <div *ngIf="getAdditionForm.partsOfSpeach.errors.required">The parts of speech is required!</div>
-    </div>
-  </mat-form-field>
-  <mat-form-field class='form-field'>
-    <input type="text" formControlName="synonym" matInput placeholder="Synonym">
-  </mat-form-field>
-  <mat-form-field class='form-field'>
-    <textarea type="text" formControlName="example" matInput placeholder="Example"></textarea>
-  </mat-form-field>
-  <button class='addButton' mat-raised-button color="primary">Modify</button>
+    <mat-divider
+      *ngIf="modifyForm.get('details').controls.length > 1"
+    ></mat-divider>
+  </div>
+
+  <div class="button">
+    <button
+      mat-icon-button
+      color="primary"
+      matTooltip="Add more details"
+      (click)="addDetails()"
+    >
+      <mat-icon>add</mat-icon>
+    </button>
+    <button
+      mat-icon-button
+      color="warn"
+      *ngIf="modifyForm.get('details').controls.length > 1"
+      matTooltip="Remove details"
+      (click)="removeDetails()"
+    >
+      <mat-icon>remove</mat-icon>
+    </button>
+  </div>
+
+  <button class="addButton" mat-raised-button color="primary">Modify</button>
 </form>

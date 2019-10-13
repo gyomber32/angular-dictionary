@@ -1,5 +1,5 @@
 import { Component, OnInit, OnChanges, EventEmitter, Input, Output } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormControl, FormArray } from '@angular/forms';
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material';
 
 import { DictionaryService } from '../services/dictionary.service';
@@ -32,27 +32,13 @@ export class AdditionComponent implements OnInit, OnChanges {
   public formValidator() {
     this.additionForm = this.formBuilder.group({
       english: ['', Validators.required],
-      hungarian: ['', Validators.required],
-      partsOfSpeech: ['', Validators.required],
-      synonym: [''],
-      example: ['']
+      details: this.formBuilder.array([
+        this.addDetailsFormGroup()
+      ])
     });
   }
 
-  public async checkWordInDatabase(english: string, partsOfSpeech: string): Promise<boolean> {
-    const word = await this.dictionaryService.checkWord(english, partsOfSpeech).toPromise();
-    if (word[0] !== undefined) {
-      for (let i = 0; i < word.length; i++) {
-        if (english === word[i].english && partsOfSpeech === word[i].pos) {
-          return true;
-        }
-      }
-    } else {
-      return false;
-    }
-  }
-
-  public async addToDatabase(english: string, hungarian: string, partsOfSpeech: string, synonym: string, example: string) {
+  public async addToDatabase(english: string, details: []) {
     try {
       await this.commonService.cast.subscribe((dictionary) => {
         this.dictionary = [];
@@ -60,25 +46,11 @@ export class AdditionComponent implements OnInit, OnChanges {
       }, (error) => {
         console.log(error);
       });
-      await this.dictionaryService.addWord(english, hungarian, partsOfSpeech, synonym, example).subscribe(_ => {
-        let lastID = null;
-        this.commonService.castID.subscribe((id) => {
-          lastID = id + 1;
-        }, (error) => {
-          console.log(error);
-        });
-        const word = {
-          'id': this.dictionary.length > 0 ? (lastID) : 1,
-          'english': english,
-          'hungarian': hungarian,
-          'partsOfSpeech': partsOfSpeech,
-          'synonym': synonym,
-          'example': example
-        };
+      await this.dictionaryService.addWord(english, details).subscribe((result: any) => {
+        const word = result.data;
         this.dictionary.push(word);
         this.wordEmitter.emit(word);
         this.commonService.updateDictionary(this.dictionary);
-        this.commonService.updateID(lastID);
         this.additionForm.reset();
         this.snackBar.open('Successfully added to database!', 'Successful', config);
       }, (error) => {
@@ -92,28 +64,44 @@ export class AdditionComponent implements OnInit, OnChanges {
   }
 
   onSubmit() {
-    // stop here if form is invalid
+    // stops here if form is invalid
     if (this.additionForm.invalid) {
       return;
     } else {
       const english = this.additionForm.get('english').value;
-      const hungarian = this.additionForm.get('hungarian').value;
-      const partsOfSpeech = this.additionForm.get('partsOfSpeech').value;
-      const synonym = this.additionForm.get('synonym').value;
-      const example = this.additionForm.get('example').value;
-      this.checkWordInDatabase(english, partsOfSpeech).then(data => {
-        if (data === true) {
-          this.snackBar.open('The word is already in the database!', 'Watch out', config);
-        } else {
-          this.addToDatabase(english, hungarian, partsOfSpeech, synonym, example);
-        }
-      });
+      const details = this.additionForm.get('details').value;
+      this.addToDatabase(english, details);
+    }
+  }
+
+  addDetailsFormGroup(): FormGroup {
+    return this.formBuilder.group({
+      hungarian: ['', Validators.required],
+      partsOfSpeech: ['', Validators.required],
+      synonym: [''],
+      example: ['']
+    });
+  }
+
+  addDetails(): void {
+    (<FormArray>this.additionForm.get('details')).push(this.addDetailsFormGroup());
+  }
+
+  removeDetails() {
+    const detailsArrayLength = (<FormArray>this.additionForm.get('details')).length;
+    if (detailsArrayLength > 1) {
+      (<FormArray>this.additionForm.get('details')).removeAt(detailsArrayLength - 1);
     }
   }
 
   ngOnChanges() {
     if (this.englishWord !== undefined && this.hungarianWord !== undefined) {
-      this.additionForm.setValue({ english: this.englishWord, hungarian: this.hungarianWord, partsOfSpeech: '', synonym: '', example: '' });
+      this.additionForm.get('english').setValue(this.englishWord);
+      const controlArray = <FormArray>this.additionForm.get('details');
+      controlArray.controls[0].get('hungarian').setValue(this.hungarianWord);
+      controlArray.controls[0].get('partsOfSpeech').setValue('');
+      controlArray.controls[0].get('synonym').setValue('');
+      controlArray.controls[0].get('example').setValue('');
     }
   }
 

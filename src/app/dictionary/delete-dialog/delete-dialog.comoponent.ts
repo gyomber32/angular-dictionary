@@ -26,10 +26,10 @@ export class DeleteDialogComponent implements OnInit {
         private snackBar: MatSnackBar) { }
 
     public yes(): void {
-        const id = Number(localStorage.getItem('delID'));
+        const id = localStorage.getItem('delID');
         this.dictionaryService.deleteWord(id).subscribe(_ => {
             for (let i = 0; i < this.dictionary.length; i++) {
-                if (this.dictionary[i].id === id) {
+                if (this.dictionary[i]._id === id) {
                     this.dictionary.splice(i, 1);
                     this.commonService.updateDictionary(this.dictionary);
                     this.snackBar.open('The word has been deleted from database!', 'Successful', config);

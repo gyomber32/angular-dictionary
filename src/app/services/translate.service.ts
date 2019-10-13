@@ -2,9 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-const baseUrl = 'http://localhost:3200/translate/';
-const engToHun = 'sl=en&tl=hu&word=';
-const hunToEng = 'sl=hu&tl=en&word=';
+const baseUrl = 'http://localhost:3000/translate/';
 
 @Injectable({
     providedIn: 'root'
@@ -13,15 +11,9 @@ export class TranslateService {
 
     constructor(private http: HttpClient) { }
 
-    public englishToHungarian(word: string): Observable<any> {
-        const url = baseUrl + engToHun + word;
-        return this.http.get(url, { responseType: 'text' });
-    }
-
-    public hungarianToEnglish(word: string): Observable<any> {
-        const url = baseUrl + hunToEng + word;
+    public translate(sourceLanguage: string, targetLanguage: string, word: string): Observable<any> {
+        const url = `${baseUrl}sl=${sourceLanguage}&tl=${targetLanguage}&word=${word}`;
         return this.http.get(url, { responseType: 'text' });
     }
 
 }
-

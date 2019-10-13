@@ -1,0 +1,11 @@
+<div *ngFor="let element of currentElements; let i = index">
+  <div
+    *ngIf="i < numberOfElements"
+    style="border-bottom: 1px solid rgba(0,0,0,.15); padding: 5px 0px 5px 0px;"
+  >
+    {{ element }}
+  </div>
+  <div *ngIf="i == numberOfElements" style="padding: 5px 0px 5px 0px;">
+    {{ element }}
+  </div>
+</div>

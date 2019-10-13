@@ -14,10 +14,10 @@ config.duration = 5000;
 })
 export class TranslateComponent implements OnInit {
 
-  private translateButtonDisabled = false;
   private swap: boolean;
-  private hungarianWord: string;
-  private englishWord: string;
+  public translateButtonDisabled = false;
+  public hungarianWord: string;
+  public englishWord: string;
   @Output() wordsEmitter = new EventEmitter<string[]>();
 
   constructor(private translateService: TranslateService, private snackBar: MatSnackBar) { }
@@ -30,43 +30,31 @@ export class TranslateComponent implements OnInit {
     }
   }
 
-  public englishToHungarian(word: string): void {
-    if (this.englishWord !== undefined) {
-      this.translateButtonDisabled = true;
-      this.translateService.englishToHungarian(word).subscribe((hungarianWord) => {
-        this.hungarianWord = hungarianWord;
-        const translatedWords: Array<string> = [this.englishWord, this.hungarianWord];
-        this.wordsEmitter.emit(translatedWords);
-        this.translateButtonDisabled = false;
-      }, (error) => {
-        this.translateButtonDisabled = false;
-        console.log(error);
-        this.snackBar.open('The translation has been failed!', 'Unsuccessful', config);
-      });
-    }
-  }
-
-  public hungarianToEnglish(word: string): void {
-    if (this.hungarianWord !== undefined) {
-      this.translateButtonDisabled = true;
-      this.translateService.hungarianToEnglish(word).subscribe((englishWord) => {
-        this.englishWord = englishWord;
-        const translatedWords: Array<string> = [this.englishWord, this.hungarianWord];
-        this.wordsEmitter.emit(translatedWords);
-        this.translateButtonDisabled = false;
-      }, (error) => {
-        this.translateButtonDisabled = false;
-        console.log(error);
-        this.snackBar.open('The translation has been failed!', 'Unsuccessful', config);
-      });
-    }
-  }
-
   public translate(): void {
     if (this.swap === true) {
-      this.englishToHungarian(this.englishWord);
+      this.translateButtonDisabled = true;
+      this.translateService.translate('en', 'hu', this.englishWord).subscribe((hungarianWord) => {
+        this.hungarianWord = JSON.parse(hungarianWord).data;
+        const translatedWords: Array<string> = [this.englishWord, this.hungarianWord];
+        this.wordsEmitter.emit(translatedWords);
+        this.translateButtonDisabled = false;
+      }, (error) => {
+        this.translateButtonDisabled = false;
+        console.log(error);
+        this.snackBar.open('The translation has failed!', 'Unsuccessful', config);
+      });
     } else {
-      this.hungarianToEnglish(this.hungarianWord);
+      this.translateButtonDisabled = true;
+      this.translateService.translate('hu', 'en', this.hungarianWord).subscribe((englishWord) => {
+        this.englishWord = JSON.parse(englishWord).data;
+        const translatedWords: Array<string> = [this.englishWord, this.hungarianWord];
+        this.wordsEmitter.emit(translatedWords);
+        this.translateButtonDisabled = false;
+      }, (error) => {
+        this.translateButtonDisabled = false;
+        console.log(error);
+        this.snackBar.open('The translation has failed!', 'Unsuccessful', config);
+      });
     }
   }
 

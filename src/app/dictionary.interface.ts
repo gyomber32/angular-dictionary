@@ -1,8 +1,14 @@
 export interface DictionaryElement {
-    id: number;
-    english: string;
-    hungarian: string;
-    partsOfSpeech: string;
-    synonym?: string;
-    example?: string;
+    _id: String;
+    english: String;
+    details: Details[];
+    createdAt?: Date;
+}
+
+interface Details {
+    _id: String;
+    hungarian: String;
+    partsOfSpeech: String;
+    synonym?: String;
+    example?: String;
 }

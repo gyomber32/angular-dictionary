@@ -16,7 +16,7 @@ import { DictionaryElement } from '../dictionary.interface';
 })
 export class DictionaryComponent implements OnInit, OnChanges, AfterViewInit {
 
-  private displayedColumns: string[] = ['english', 'hungarian', 'partsOfSpeech', 'synonym', 'example', 'actions'];
+  private displayedColumns: string[] = ['english', 'hungarian', 'partsOfSpeech', 'synonym', 'example', 'createdAt', 'actions'];
   private dataSource: MatTableDataSource<DictionaryElement>;
   private dictionary: DictionaryElement[] = [];
   @Input() word: DictionaryElement;
@@ -28,7 +28,28 @@ export class DictionaryComponent implements OnInit, OnChanges, AfterViewInit {
     private deleteDialog: MatDialog) {
     this.dataSource = new MatTableDataSource(this.dictionary);
     this.dataSource.paginator = this.paginator;
+    this.dataSource.filterPredicate = (data: DictionaryElement, filterValue: string) => {
+      for (let i = 0; i <= data.details.length; i++) {
+        return data.details[i].hungarian.trim().toLowerCase().indexOf(filterValue) !== -1;
+      }
+    };
+    this.dataSource.filterPredicate = (data: DictionaryElement, filterValue: string) => {
+      for (let i = 0; i <= data.details.length; i++) {
+        return data.details[i].partsOfSpeech.trim().toLowerCase().indexOf(filterValue) !== -1;
+      }
+    };
+    this.dataSource.filterPredicate = (data: DictionaryElement, filterValue: string) => {
+      for (let i = 0; i <= data.details.length; i++) {
+        return data.details[i].synonym.trim().toLowerCase().indexOf(filterValue) !== -1;
+      }
+    };
+    this.dataSource.filterPredicate = (data: DictionaryElement, filterValue: string) => {
+      for (let i = 0; i <= data.details.length; i++) {
+        return data.details[i].example.trim().toLowerCase().indexOf(filterValue) !== -1;
+      }
+    };
   }
+
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -41,18 +62,11 @@ export class DictionaryComponent implements OnInit, OnChanges, AfterViewInit {
   }
 
   public getAllWords(): void {
-    this.dictionaryService.getAllWords().subscribe((data) => {
-      data.forEach((word) => {
-        const wordJSON = {
-          'id': word.id,
-          'english': word.english,
-          'hungarian': word.hungarian,
-          'partsOfSpeech': word.pos,
-          'synonym': word.synonym,
-          'example': word.example
-        };
-        this.dictionary.push(wordJSON);
+    this.dictionaryService.getAllWords().subscribe((words) => {
+      words.data.forEach((word: DictionaryElement) => {
+        this.dictionary.push(word);
       });
+      this.dictionary = words.data;
       this.dataSource._updateChangeSubscription();
       this.dataSource.paginator = this.paginator;
     }, (error) => {
@@ -60,8 +74,8 @@ export class DictionaryComponent implements OnInit, OnChanges, AfterViewInit {
     });
   }
 
-  public modify(id: number) {
-    localStorage.setItem('modID', id.toString());
+  public modify(id: string) {
+    localStorage.setItem('modID', id);
     const modifyDialogRef = this.modifyDialog.open(ModifyDialogComponent);
 
     modifyDialogRef.afterClosed().subscribe(result => {
@@ -70,11 +84,12 @@ export class DictionaryComponent implements OnInit, OnChanges, AfterViewInit {
       });
       this.dataSource._updateChangeSubscription();
       this.dataSource.sort = this.sort;
+      localStorage.removeItem('modID');
     });
   }
 
-  public delete(id: number): void {
-    localStorage.setItem('delID', id.toString());
+  public delete(id: string): void {
+    localStorage.setItem('delID', id);
     const deleteDialogRef = this.deleteDialog.open(DeleteDialogComponent, {
       width: '290px',
       height: '120px'
@@ -86,6 +101,7 @@ export class DictionaryComponent implements OnInit, OnChanges, AfterViewInit {
       });
       this.dataSource._updateChangeSubscription();
       this.dataSource.sort = this.sort;
+      localStorage.removeItem('delID');
     });
   }
 
@@ -101,9 +117,6 @@ export class DictionaryComponent implements OnInit, OnChanges, AfterViewInit {
 
   ngAfterViewInit() {
     this.commonService.updateDictionary(this.dictionary);
-    setTimeout(() => {
-      this.commonService.updateID(this.dictionary[this.dictionary.length - 1].id);
-    }, 5000);
   }
 
 }

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material';
 import { DictionaryService } from '../../services/dictionary.service';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
 
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material';
 
@@ -32,40 +32,34 @@ export class ModifyDialogComponent implements OnInit {
     public formValidator() {
         this.modifyForm = this.formBuilder.group({
             english: ['', Validators.required],
-            hungarian: ['', Validators.required],
-            partsOfSpeech: ['', Validators.required],
-            synonym: [''],
-            example: ['']
+            details: this.formBuilder.array([
+                this.addDetailsFormGroup()
+            ])
         });
     }
 
     public getOneWord(): void {
-        const id = Number(localStorage.getItem('modID'));
-        this.dictionaryService.getOneWord(id).subscribe((word) => {
-            this.modifyForm.setValue({
-                ['english']: word[0].english,
-                ['hungarian']: word[0].hungarian,
-                ['partsOfSpeech']: word[0].pos,
-                ['synonym']: word[0].synonym,
-                ['example']: word[0].example
+        const id = localStorage.getItem('modID');
+        this.dictionaryService.getOneWord(id).subscribe((word: any) => {
+            this.modifyForm.get('english').setValue(word.data.english);
+            word.data.details.forEach((detail, i) => {
+                const controlArray = <FormArray>this.modifyForm.get('details');
+                if (i === 0) {
+                    controlArray.controls[i].get('hungarian').setValue(detail.hungarian);
+                    controlArray.controls[i].get('partsOfSpeech').setValue(detail.partsOfSpeech);
+                    controlArray.controls[i].get('synonym').setValue(detail.synonym);
+                    controlArray.controls[i].get('example').setValue(detail.example);
+                } else {
+                    this.addDetails();
+                    controlArray.controls[i].get('hungarian').setValue(detail.hungarian);
+                    controlArray.controls[i].get('partsOfSpeech').setValue(detail.partsOfSpeech);
+                    controlArray.controls[i].get('synonym').setValue(detail.synonym);
+                    controlArray.controls[i].get('example').setValue(detail.example);
+                }
             });
         }, (error) => {
             console.log(error);
         });
-    }
-
-    public async checkWordInDatabase(english: string, partsOfSpeech: string): Promise<boolean> {
-        const word = await this.dictionaryService.checkWord(english, partsOfSpeech).toPromise();
-        if (word[0] !== undefined) {
-            for (let i = 0; i < word.length; i++) {
-                if (english === word[i].english && partsOfSpeech === word[i].pos) {
-                    return true;
-                }
-            }
-        } else {
-            return false;
-        }
-
     }
 
     public onSubmit() {
@@ -73,23 +67,13 @@ export class ModifyDialogComponent implements OnInit {
         if (this.modifyForm.invalid) {
             return;
         } else {
-            const id = Number(localStorage.getItem('modID'));
+            const id = localStorage.getItem('modID');
             const english = this.modifyForm.get('english').value;
-            const hungarian = this.modifyForm.get('hungarian').value;
-            const partsOfSpeech = this.modifyForm.get('partsOfSpeech').value;
-            const synonym = this.modifyForm.get('synonym').value;
-            const example = this.modifyForm.get('example').value;
-            this.dictionaryService.modifyWord(id, english, hungarian, partsOfSpeech, synonym, example).subscribe((success) => {
-                const word = {
-                    'id': id,
-                    'english': english,
-                    'hungarian': hungarian,
-                    'partsOfSpeech': partsOfSpeech,
-                    'synonym': synonym,
-                    'example': example
-                };
+            const details = this.modifyForm.get('details').value;
+            this.dictionaryService.modifyWord(id, english, details).subscribe((result) => {
+                const word = result.data;
                 for (let i = 0; i < this.dictionary.length; i++) {
-                    if (this.dictionary[i].id === id) {
+                    if (this.dictionary[i]._id === id) {
                         this.dictionary[i] = word;
                         this.commonService.updateDictionary(this.dictionary);
                         this.snackBar.open('The word has been modified in the database!', 'Successful', config);
@@ -103,18 +87,38 @@ export class ModifyDialogComponent implements OnInit {
         }
     }
 
+    addDetailsFormGroup(): FormGroup {
+        return this.formBuilder.group({
+            hungarian: ['', Validators.required],
+            partsOfSpeech: ['', Validators.required],
+            synonym: [''],
+            example: ['']
+        });
+    }
+
+    addDetails(): void {
+        (<FormArray>this.modifyForm.get('details')).push(this.addDetailsFormGroup());
+    }
+
+    removeDetails() {
+        const detailsArrayLength = (<FormArray>this.modifyForm.get('details')).length;
+        if (detailsArrayLength > 1) {
+            (<FormArray>this.modifyForm.get('details')).removeAt(detailsArrayLength - 1);
+        }
+    }
+
     public onNoClick(): void {
         this.modifyDialogRef.close();
     }
 
     ngOnInit() {
         this.formValidator();
+        this.getOneWord();
         this.commonService.cast.subscribe((dictionary) => {
             this.dictionary = dictionary;
         }, (error) => {
             console.log(error);
         });
-        this.getOneWord();
     }
 
 }

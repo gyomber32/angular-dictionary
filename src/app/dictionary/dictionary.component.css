@@ -63,6 +63,11 @@ td.mat-column-example {
   text-align: center;
 }
 
+td.mat-column-createdAt {
+  width: 300px;
+  text-align: center;
+}
+
 td.mat-column-actions {
   width: 100px;
   text-align: center;

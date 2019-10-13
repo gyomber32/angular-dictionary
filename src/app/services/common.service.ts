@@ -16,13 +16,7 @@ export class CommonService {
 
   constructor() { }
 
-  castID = this.id.asObservable();
-
   cast = this.dictionary.asObservable();
-
-  updateID(newID): void {
-    this.id.next(newID);
-  }
 
   updateDictionary(newDictionray): void {
     this.dictionary.next(newDictionray);
