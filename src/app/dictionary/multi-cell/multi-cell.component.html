@@ -1,11 +1,14 @@
 <div *ngFor="let element of currentElements; let i = index">
   <div
     *ngIf="i < numberOfElements"
-    style="border-bottom: 1px solid rgba(0,0,0,.15); padding: 5px 0px 5px 0px;"
+    style="border-bottom: 1px solid rgba(0,0,0,.15); padding: 5px 0px 5px 0px; height: 40px; display: flex; justify-content: center; align-items: center;"
   >
     {{ element }}
   </div>
-  <div *ngIf="i == numberOfElements" style="padding: 5px 0px 5px 0px;">
+  <div *ngIf="i == numberOfElements" style="padding: 5px 0px 5px 0px; height: 40px; display: flex; justify-content: center; align-items: center;">
     {{ element }}
   </div>
 </div>
+
+
+<!-- NEED A LENGTH-VALIDATOR ON EXAPMLE FIELD. 200 CHARACTERS ARE TOO MUCH, IT'S NEED TO BE ABOUT 128-150 CHARACTERS -->

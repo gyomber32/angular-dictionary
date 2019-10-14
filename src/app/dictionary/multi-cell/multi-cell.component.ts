@@ -29,6 +29,7 @@ export class MultiCellComponent implements OnInit {
       this.currentElements = this.cellElement.details.map(element => {
         return element.synonym;
       });
+      console.log(this.currentElements);
     }
     if (this.type === 'example') {
       this.currentElements = this.cellElement.details.map(element => {

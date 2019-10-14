@@ -81,7 +81,7 @@ export class AdditionComponent implements OnInit, OnChanges {
       hungarian: ['', Validators.required],
       partsOfSpeech: ['', Validators.required],
       synonym: [''],
-      example: ['']
+      example: ['', Validators.maxLength(128)]
     });
   }
 

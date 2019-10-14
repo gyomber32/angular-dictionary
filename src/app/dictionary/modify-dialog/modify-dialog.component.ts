@@ -94,7 +94,7 @@ export class ModifyDialogComponent implements OnInit {
             hungarian: ['', Validators.required],
             partsOfSpeech: ['', Validators.required],
             synonym: [''],
-            example: ['']
+            example: ['', Validators.maxLength(128)]
         });
     }
 

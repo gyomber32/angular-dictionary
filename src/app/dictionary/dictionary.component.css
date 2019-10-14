@@ -33,11 +33,6 @@ th.mat-sort-header-sorted {
   margin: auto;
 }
 
-td.mat-column-id {
-  width: 20px;
-  text-align: center;
-}
-
 td.mat-column-english {
   width: 100px;
   text-align: center;
@@ -59,12 +54,12 @@ td.mat-column-synonym {
 }
 
 td.mat-column-example {
-  width: 300px;
+  width: 350px;
   text-align: center;
 }
 
 td.mat-column-createdAt {
-  width: 300px;
+  width: 150px;
   text-align: center;
 }
 
