@@ -1,5 +1,10 @@
 <h1 style="text-align: center;">Modify</h1>
-<form class="form" mat-dialog-content [formGroup]="modifyForm" (ngSubmit)="onSubmit()">
+<form
+  class="form"
+  mat-dialog-content
+  [formGroup]="modifyForm"
+  (ngSubmit)="onSubmit()"
+>
   <mat-form-field class="form-field">
     <input
       type="text"
@@ -10,7 +15,7 @@
   </mat-form-field>
   <div
     formArrayName="details"
-    *ngFor="let details of modifyForm.get('details').controls; let i = index"
+    *ngFor="let details of formData.controls; let i = index"
   >
     <div [formGroupName]="i" class="details">
       <mat-form-field class="form-field">
@@ -34,7 +39,7 @@
           <mat-option value="adverb">adverb</mat-option>
           <mat-option value="preposition">preposition</mat-option>
           <mat-option value="conjunction">conjunction</mat-option>
-          <mat-option value="interjenction">interjenction</mat-option>
+          <mat-option value="interjection">interjection</mat-option>
         </mat-select>
       </mat-form-field>
       <mat-form-field class="form-field">
@@ -58,9 +63,7 @@
         Please please fill the form with valid data!
       </div>
     </div>
-    <mat-divider
-      *ngIf="modifyForm.get('details').controls.length > 1"
-    ></mat-divider>
+    <mat-divider *ngIf="formData.controls.length > 1"></mat-divider>
   </div>
 
   <div class="button">
@@ -75,7 +78,7 @@
     <button
       mat-icon-button
       color="warn"
-      *ngIf="modifyForm.get('details').controls.length > 1"
+      *ngIf="formData.controls.length > 1"
       matTooltip="Remove details"
       (click)="removeDetails()"
     >

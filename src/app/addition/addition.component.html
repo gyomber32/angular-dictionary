@@ -18,7 +18,7 @@
   <mat-divider></mat-divider>
   <div
     formArrayName="details"
-    *ngFor="let details of additionForm.get('details').controls; let i = index"
+    *ngFor="let details of formData.controls; let i = index"
   >
     <div [formGroupName]="i" class="details">
       <mat-form-field class="form-field">
@@ -42,7 +42,7 @@
           <mat-option value="adverb">adverb</mat-option>
           <mat-option value="preposition">preposition</mat-option>
           <mat-option value="conjunction">conjunction</mat-option>
-          <mat-option value="interjenction">interjenction</mat-option>
+          <mat-option value="interjection">interjection</mat-option>
         </mat-select>
       </mat-form-field>
       <mat-form-field class="form-field">
@@ -66,7 +66,7 @@
       </div>
     </div>
     <mat-divider
-      *ngIf="additionForm.get('details').controls.length > 1"
+      *ngIf="formData.controls.length > 1"
     ></mat-divider>
   </div>
 
@@ -82,7 +82,7 @@
     <button
       mat-icon-button
       color="warn"
-      *ngIf="additionForm.get('details').controls.length > 1"
+      *ngIf="formData.controls.length > 1"
       matTooltip="Remove details"
       (click)="removeDetails()"
     >

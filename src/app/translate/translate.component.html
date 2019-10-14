@@ -1,37 +1,101 @@
-<h1 style='text-align: center; font-weight: bold; font-size:3vw; color: black;
+<h1
+  style="text-align: center; font-weight: bold; font-size:3vw; color: black;
 -webkit-text-fill-color: white;
 -webkit-text-stroke-width: 1px;
--webkit-text-stroke-color: black;'>Translate</h1>
+-webkit-text-stroke-color: black;"
+>
+  Translate
+</h1>
 <mat-card class="container">
-    <div *ngIf="swap; then thenBlock else elseBlock"></div>
-    <ng-template #thenBlock>
-        <mat-form-field class='form-field'>
-            <input matInput placeholder="English word" [(ngModel)]='englishWord'>
-        </mat-form-field>
-        <button class='button' mat-raised-button color='primary' (click)='swapLanguage()' matTooltip="Swap languages">
-            <mat-icon>swap_horiz</mat-icon>
-        </button>
-        <mat-form-field class='form-field'>
-            <input matInput placeholder="Hungarian word" [(ngModel)]='hungarianWord'>
-        </mat-form-field>
-        <button class='button' mat-raised-button color='primary' (click)='translate()' matTooltip="Translate word"
-            [disabled]='translateButtonDisabled'>
-            <mat-icon>translate</mat-icon>
-        </button>
-    </ng-template>
-    <ng-template #elseBlock>
-        <mat-form-field class='form-field'>
-            <input matInput placeholder="Hungarian word" [(ngModel)]='hungarianWord'>
-        </mat-form-field>
-        <button class='button' mat-raised-button color='primary' (click)='swapLanguage()' matTooltip="Swap languages">
-            <mat-icon>swap_horiz</mat-icon>
-        </button>
-        <mat-form-field class='form-field'>
-            <input matInput placeholder="English word" [(ngModel)]='englishWord'>
-        </mat-form-field>
-        <button class='button' mat-raised-button color='primary' (click)='translate()' matTooltip="Translate word"
-            [disabled]='translateButtonDisabled'>
-            <mat-icon>translate</mat-icon>
-        </button>
-    </ng-template>
+  <div *ngIf="swap; then thenBlock; else elseBlock"></div>
+  <ng-template #thenBlock>
+    <form
+      class="form"
+      mat-dialog-content
+      [formGroup]="engToHunForm"
+      (ngSubmit)="translate()"
+    >
+      <mat-form-field class="form-field">
+        <input
+          type="text"
+          formControlName="english"
+          matInput
+          placeholder="English word"
+        />
+      </mat-form-field>
+      <button
+        class="button"
+        mat-raised-button
+        color="primary"
+        (click)="swapLanguage()"
+        matTooltip="Swap languages"
+      >
+        <mat-icon>swap_horiz</mat-icon>
+      </button>
+      <mat-form-field class="form-field">
+        <input
+          type="text"
+          formControlName="hungarian"
+          matInput
+          placeholder="Hungarian word"
+        />
+      </mat-form-field>
+      <button
+        class="button"
+        mat-raised-button
+        color="primary"
+        type="submit"
+        [disabled]="!engToHunForm.valid"
+        matTooltip="Translate word"
+        [disabled]="translateButtonDisabled"
+      >
+        <mat-icon>translate</mat-icon>
+      </button>
+    </form>
+  </ng-template>
+  <ng-template #elseBlock>
+    <form
+      class="form"
+      mat-dialog-content
+      [formGroup]="hunToEngForm"
+      (ngSubmit)="translate()"
+    >
+      <mat-form-field class="form-field">
+        <input
+          type="text"
+          formControlName="hungarian"
+          matInput
+          placeholder="Hungarian word"
+        />
+      </mat-form-field>
+      <button
+        class="button"
+        mat-raised-button
+        color="primary"
+        (click)="swapLanguage()"
+        matTooltip="Swap languages"
+      >
+        <mat-icon>swap_horiz</mat-icon>
+      </button>
+      <mat-form-field class="form-field">
+        <input
+          type="text"
+          matInput
+          formControlName="english"
+          placeholder="English word"
+        />
+      </mat-form-field>
+      <button
+        class="button"
+        mat-raised-button
+        color="primary"
+        type="submit"
+        [disabled]="!hunToEngForm.valid"
+        matTooltip="Translate word"
+        [disabled]="translateButtonDisabled"
+      >
+        <mat-icon>translate</mat-icon>
+      </button>
+    </form>
+  </ng-template>
 </mat-card>

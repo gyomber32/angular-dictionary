@@ -16,8 +16,8 @@ import { DictionaryElement } from '../dictionary.interface';
 })
 export class DictionaryComponent implements OnInit, OnChanges, AfterViewInit {
 
-  private displayedColumns: string[] = ['english', 'hungarian', 'partsOfSpeech', 'synonym', 'example', 'createdAt', 'actions'];
-  private dataSource: MatTableDataSource<DictionaryElement>;
+  public displayedColumns: string[] = ['english', 'hungarian', 'partsOfSpeech', 'synonym', 'example', 'createdAt', 'actions'];
+  public dataSource: MatTableDataSource<DictionaryElement>;
   private dictionary: DictionaryElement[] = [];
   @Input() word: DictionaryElement;
 

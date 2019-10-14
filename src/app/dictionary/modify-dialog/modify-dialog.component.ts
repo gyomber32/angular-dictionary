@@ -19,7 +19,7 @@ config.duration = 5000;
 })
 export class ModifyDialogComponent implements OnInit {
 
-    private modifyForm: FormGroup;
+    public modifyForm: FormGroup;
     private dictionary: DictionaryElement[] = [];
 
     constructor(
@@ -28,6 +28,8 @@ export class ModifyDialogComponent implements OnInit {
         private formBuilder: FormBuilder,
         private modifyDialogRef: MatDialogRef<ModifyDialogComponent>,
         private snackBar: MatSnackBar) { }
+
+    get formData() { return <FormArray>this.modifyForm.get('details'); }
 
     public formValidator() {
         this.modifyForm = this.formBuilder.group({

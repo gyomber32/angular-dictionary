@@ -17,7 +17,7 @@ config.duration = 5000;
 })
 export class AdditionComponent implements OnInit, OnChanges {
 
-  private additionForm: FormGroup;
+  public additionForm: FormGroup;
   private dictionary: DictionaryElement[] = [];
   @Output() wordEmitter = new EventEmitter<DictionaryElement>();
   @Input() englishWord = '';
@@ -28,6 +28,8 @@ export class AdditionComponent implements OnInit, OnChanges {
     private commonService: CommonService,
     private formBuilder: FormBuilder,
     private snackBar: MatSnackBar) { }
+
+  get formData() { return <FormArray>this.additionForm.get('details'); }
 
   public formValidator() {
     this.additionForm = this.formBuilder.group({
@@ -52,7 +54,7 @@ export class AdditionComponent implements OnInit, OnChanges {
         this.wordEmitter.emit(word);
         this.commonService.updateDictionary(this.dictionary);
         this.additionForm.reset();
-        this.snackBar.open('Successfully added to database!', 'Successful', config);
+        this.snackBar.open('Successfully added to the database!', 'Successful', config);
       }, (error) => {
         console.log(error);
         this.snackBar.open('Error during adding to database!', 'Unsuccessful', config);

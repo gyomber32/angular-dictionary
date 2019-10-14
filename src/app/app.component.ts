@@ -10,9 +10,9 @@ import { DictionaryElement } from './dictionary.interface';
 export class AppComponent implements OnInit {
   title = 'dictionary';
 
-  private word: DictionaryElement[];
-  private englishWord: string;
-  private hungarianWord: string;
+  public word: DictionaryElement[];
+  public englishWord: string;
+  public hungarianWord: string;
 
   public addedWord(event): void {
     this.word = event;
