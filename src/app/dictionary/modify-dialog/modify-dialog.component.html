@@ -86,5 +86,14 @@
     </button>
   </div>
 
-  <button class="addButton" mat-raised-button color="primary">Modify</button>
+  <button
+    class="addButton"
+    mat-raised-button
+    color="primary"
+    type="submit"
+    [disabled]="!modifyForm.valid"
+    matTooltip="Modify form values in the database"
+  >
+    Modify
+  </button>
 </form>

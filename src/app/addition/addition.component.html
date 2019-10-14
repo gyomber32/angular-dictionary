@@ -6,7 +6,12 @@
 >
   Addition
 </h1>
-<form class="form" mat-dialog-content [formGroup]="additionForm" (ngSubmit)="onSubmit()">
+<form
+  class="form"
+  mat-dialog-content
+  [formGroup]="additionForm"
+  (ngSubmit)="onSubmit()"
+>
   <mat-form-field class="form-field">
     <input
       type="text"
@@ -65,9 +70,7 @@
         Please please fill the form with valid data!
       </div>
     </div>
-    <mat-divider
-      *ngIf="formData.controls.length > 1"
-    ></mat-divider>
+    <mat-divider *ngIf="formData.controls.length > 1"></mat-divider>
   </div>
 
   <div class="button">
