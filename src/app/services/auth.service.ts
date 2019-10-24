@@ -50,4 +50,15 @@ export class AuthService {
         }, expirationDuration);
     }
 
+    public isAuthenticated(): boolean {
+        const token = localStorage.getItem('token');
+        const tokenExpiry = +localStorage.getItem('tokenExpiry');
+
+        if (!token || !tokenExpiry || new Date().getTime() > tokenExpiry) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
 }

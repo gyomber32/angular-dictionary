@@ -20,6 +20,7 @@ import { AdditionComponent } from './addition/addition.component';
 import { ModifyDialogComponent } from './home/dictionary/modify-dialog/modify-dialog.component';
 import { DeleteDialogComponent } from './home/dictionary/delete-dialog/delete-dialog.comoponent';
 import { MultiCellComponent } from './home/dictionary/multi-cell/multi-cell.component';
+import { AuthGuard } from './auth-guard.service';
 
 @NgModule({
   declarations: [
@@ -42,7 +43,7 @@ import { MultiCellComponent } from './home/dictionary/multi-cell/multi-cell.comp
     AppMaterialModule,
     routing
   ],
-  providers: [AuthService, DictionaryService, CommonService],
+  providers: [AuthService, AuthGuard, DictionaryService, CommonService],
   entryComponents: [ModifyDialogComponent, DeleteDialogComponent],
   bootstrap: [AppComponent]
 })
