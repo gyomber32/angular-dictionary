@@ -2,10 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material';
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material';
 
-import { CommonService } from '../../services/common.service';
-import { DictionaryService } from '../../services/dictionary.service';
+import { CommonService } from '../../../services/common.service';
+import { DictionaryService } from '../../../services/dictionary.service';
 
-import { DictionaryElement } from '../../dictionary.interface';
+import { DictionaryElement } from '../../../dictionary.interface';
 
 const config = new MatSnackBarConfig();
 config.duration = 5000;

@@ -4,10 +4,10 @@ import { MatPaginator, MatSort, MatTableDataSource, MatDialog } from '@angular/m
 import { DeleteDialogComponent } from './delete-dialog/delete-dialog.comoponent';
 import { ModifyDialogComponent } from './modify-dialog/modify-dialog.component';
 
-import { CommonService } from '../../app/services/common.service';
-import { DictionaryService } from '../../app/services/dictionary.service';
+import { CommonService } from '../../services/common.service';
+import { DictionaryService } from '../../services/dictionary.service';
 
-import { DictionaryElement } from '../dictionary.interface';
+import { DictionaryElement } from '../../dictionary.interface';
 
 @Component({
   selector: 'app-dictionary',

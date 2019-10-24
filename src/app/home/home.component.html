@@ -1,0 +1,19 @@
+<div class="logout-button">
+  <button mat-raised-button color="primary" (click)='logout()'>
+    Logout
+  </button>
+</div>
+<app-dictionary [word]="word"></app-dictionary>
+<div class="container">
+  <app-translate
+    id="translate"
+    (wordsEmitter)="translatedWords($event)"
+  ></app-translate>
+  <app-addition
+    id="addition"
+    (wordEmitter)="addedWord($event)"
+    [englishWord]="englishWord"
+    [hungarianWord]="hungarianWord"
+  >
+  </app-addition>
+</div>

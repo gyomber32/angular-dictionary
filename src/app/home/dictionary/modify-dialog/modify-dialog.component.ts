@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material';
-import { DictionaryService } from '../../services/dictionary.service';
+import { DictionaryService } from '../../../services/dictionary.service';
 import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
 
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material';
 
-import { CommonService } from '../../services/common.service';
+import { CommonService } from '../../../services/common.service';
 
-import { DictionaryElement } from '../../dictionary.interface';
+import { DictionaryElement } from '../../../dictionary.interface';
 
 const config = new MatSnackBarConfig();
 config.duration = 5000;

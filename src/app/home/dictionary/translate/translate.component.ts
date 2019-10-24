@@ -2,7 +2,7 @@ import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material';
 
-import { TranslateService } from '../services/translate.service';
+import { TranslateService } from '../../../services/translate.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 const config = new MatSnackBarConfig();

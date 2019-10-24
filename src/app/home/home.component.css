@@ -1,0 +1,22 @@
+.container {
+  margin: auto;
+  max-width: 75%;
+  min-width: 700px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
+
+.logout-button {
+  text-align: right;
+}
+
+#translate {
+  padding: 3%;
+}
+
+#addition {
+  padding: 3%;
+}
