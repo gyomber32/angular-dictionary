@@ -7,6 +7,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { routing } from './app.routing.module';
 
 import { AuthService } from '../app/services/auth.service';
+import { AuthGuard } from './auth-guard.service';
 import { DictionaryService } from '../app/services/dictionary.service';
 import { CommonService } from '../app/services/common.service';
 
@@ -20,7 +21,7 @@ import { AdditionComponent } from './addition/addition.component';
 import { ModifyDialogComponent } from './home/dictionary/modify-dialog/modify-dialog.component';
 import { DeleteDialogComponent } from './home/dictionary/delete-dialog/delete-dialog.comoponent';
 import { MultiCellComponent } from './home/dictionary/multi-cell/multi-cell.component';
-import { AuthGuard } from './auth-guard.service';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import { AuthGuard } from './auth-guard.service';
     ModifyDialogComponent,
     DeleteDialogComponent,
     AdditionComponent,
-    MultiCellComponent
+    MultiCellComponent,
+    PageNotFoundComponent
   ],
   imports: [
     BrowserModule,

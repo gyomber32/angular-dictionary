@@ -37,11 +37,10 @@ export class AuthService {
         if (!token || !tokenExpiry || new Date().getTime() > tokenExpiry) {
             this.router.navigate(['/login']);
         } else {
-            this.router.navigate(['/dictionary']);
+            this.router.navigate(['/']);
             const expirationDuration = tokenExpiry - new Date().getTime();
             this.autoLogout(expirationDuration);
         }
-
     }
 
     public autoLogout(expirationDuration: number): void {

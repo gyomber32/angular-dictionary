@@ -31,7 +31,7 @@ export class LoginComponent implements OnInit {
       localStorage.setItem('token', result.token);
       const tokenExpiry = (new Date().getTime() + 3600000).toString();
       localStorage.setItem('tokenExpiry', tokenExpiry);
-      this.router.navigate(['/dictionary']);
+      this.router.navigate(['/']);
       this.isLoading = false;
       this.authService.autoLogout(+tokenExpiry);
     }, (error) => {
@@ -41,6 +41,7 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.authService.autoLogin();
     document.body.classList.add('bg-img');
     this.loginForm = this.formBuilder.group({
       email: ['', {
